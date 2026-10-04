@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Blue Pill – Stay Forever Young</title>
+<meta name="theme-color" content="#060b2e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Orbitron:wght@500;800&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1:#060b2e;
+    --bg-2:#0d1a5c;
+    --blue:#2f7bff;
+    --neon:#38f9ff;
+    --pink:#ff5ce1;
+    --silver:#dfe6f2;
+    --chrome: linear-gradient(180deg,#ffffff 0%,#cfd8e6 38%,#7d8aa3 50%,#e9eef7 62%,#ffffff 100%);
+    --glass: rgba(255,255,255,.08);
+    --glass-border: rgba(255,255,255,.22);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Quicksand',system-ui,sans-serif;
+    color:var(--silver);
+    background:
+      radial-gradient(circle at 15% 10%, rgba(56,249,255,.25), transparent 40%),
+      radial-gradient(circle at 90% 30%, rgba(255,92,225,.22), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(47,123,255,.45), transparent 55%),
+      linear-gradient(160deg,var(--bg-1),var(--bg-2));
+    background-attachment:fixed;
+    min-height:100vh;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body.locked{overflow:hidden}
+
+  /* ---------- Glitzer-Hintergrund ---------- */
+  #sparkles,#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+  #sparkles{z-index:0}
+  #confetti{z-index:60}
+
+  /* ---------- Hintergrund-Bild (eigene PNG) als Wasserzeichen ---------- */
+  .bg-figure{
+    position:fixed;z-index:0;pointer-events:none;
+    right:-6vw;bottom:0;height:min(78vh,620px);width:auto;
+    opacity:.16;filter:grayscale(.2) drop-shadow(0 0 24px rgba(56,249,255,.8));
+    mix-blend-mode:screen;
+    -webkit-mask-image:linear-gradient(to top,transparent 0%,#000 25%);
+            mask-image:linear-gradient(to top,transparent 0%,#000 25%);
+    animation:drift 9s ease-in-out infinite;
+  }
+  @keyframes drift{50%{transform:translateY(-14px) rotate(-1.5deg)}}
+  @media (min-width:900px){.bg-figure{right:4vw;opacity:.2}}
+
+  /* ---------- Y2K-Pop-Art-Sticker am Rand ---------- */
+  .stickers{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .sticker{position:absolute;opacity:.55;filter:drop-shadow(0 0 10px rgba(56,249,255,.6))}
+  .sticker.s1{top:12%;left:-14px;width:84px;transform:rotate(-18deg);animation:wobble 6s ease-in-out infinite}
+  .sticker.s2{top:44%;right:-10px;width:70px;transform:rotate(14deg);animation:wobble 7s ease-in-out infinite reverse}
+  .sticker.s3{bottom:14%;left:-6px;width:92px;transform:rotate(10deg);animation:wobble 8s ease-in-out infinite}
+  .sticker.s4{top:4%;right:22%;width:46px;animation:twinkle 2.4s ease-in-out infinite}
+  @keyframes wobble{50%{transform:rotate(4deg) translateY(-10px)}}
+  @keyframes twinkle{50%{transform:scale(1.25) rotate(20deg);opacity:.9}}
+
+  .sticker.s5{top:26%;right:-8px;width:58px;transform:rotate(-12deg);animation:wobble 6.5s ease-in-out infinite}
+  .sticker.s6{top:63%;left:-10px;width:64px;transform:rotate(-8deg);animation:wobble 7.5s ease-in-out infinite reverse}
+  .sticker.s7{bottom:5%;right:6%;width:74px;transform:rotate(-14deg);animation:wobble 5.5s ease-in-out infinite}
+  .sticker.s8{top:30%;left:4%;width:30px;animation:twinkle 3s ease-in-out infinite .6s}
+  .sticker.s9{bottom:34%;right:3%;width:24px;animation:twinkle 2.6s ease-in-out infinite 1.1s}
+  .sticker.s10{top:80%;left:30%;width:56px;opacity:.35;transform:rotate(18deg);animation:wobble 9s ease-in-out infinite}
+  .sticker.s11{top:2%;left:18%;width:60px;transform:rotate(-10deg);animation:wobble 8s ease-in-out infinite reverse}
+  @media (min-width:900px){
+    .sticker{transform:scale(1.4)}
+    .sticker.s1{left:6vw}.sticker.s3{left:8vw}.sticker.s6{left:12vw}
+    .sticker.s2{right:8vw}.sticker.s5{right:14vw}
+  }
+
+  /* ---------- Halftone-Pop-Art-Raster ---------- */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(rgba(255,255,255,.14) 1.2px, transparent 1.6px);
+    background-size:14px 14px;
+    -webkit-mask-image:radial-gradient(circle at 100% 0%,#000 0%,transparent 45%),radial-gradient(circle at 0% 100%,#000 0%,transparent 45%);
+            mask-image:radial-gradient(circle at 100% 0%,#000 0%,transparent 45%),radial-gradient(circle at 0% 100%,#000 0%,transparent 45%);
+  }
+
+  /* ---------- Laufband ---------- */
+  .ticker{
+    position:relative;z-index:1;overflow:hidden;white-space:nowrap;margin:26px -18px 0;
+    padding:10px 0;transform:rotate(-2.5deg);
+    background:linear-gradient(90deg,var(--pink),var(--blue),var(--neon));
+    border-top:2px solid #fff;border-bottom:2px solid #fff;
+    box-shadow:0 0 24px rgba(255,92,225,.5);
+  }
+  .ticker.alt{transform:rotate(2deg);margin-top:-6px;background:#fff;box-shadow:0 0 24px rgba(56,249,255,.5)}
+  .ticker .track{display:inline-block;animation:marquee 16s linear infinite}
+  .ticker.alt .track{animation-direction:reverse;animation-duration:20s}
+  .ticker span{font-family:'Orbitron',sans-serif;font-weight:800;font-size:.85rem;letter-spacing:.18em;color:#fff;padding:0 14px}
+  .ticker.alt span{color:#0d1a5c}
+  @keyframes marquee{to{transform:translateX(-50%)}}
+
+  /* ---------- Sprechblase & Sticker-Badge auf der Karte ---------- */
+  .bubble{
+    position:absolute;top:14px;right:12px;z-index:2;
+    font-family:'Bungee Shade',cursive;font-size:.95rem;color:#0d1a5c;
+    background:#fff;padding:8px 12px;border-radius:18px;transform:rotate(8deg);
+    box-shadow:4px 4px 0 var(--pink);animation:wobble 4s ease-in-out infinite;
+  }
+  .bubble::after{content:"";position:absolute;bottom:-8px;left:16px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}
+  .badge{
+    position:absolute;top:12px;left:10px;z-index:2;width:64px;height:64px;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:.55rem;line-height:1.1;color:#04103d;
+    background:var(--neon);transform:rotate(-14deg);
+    clip-path:polygon(50% 0,61% 13%,77% 6%,80% 22%,96% 25%,89% 40%,100% 52%,87% 62%,93% 78%,76% 79%,70% 95%,56% 86%,44% 98%,36% 83%,20% 92%,18% 75%,2% 70%,10% 55%,0 42%,14% 33%,8% 17%,25% 17%,32% 2%,44% 13%);
+    animation:spin 14s linear infinite;
+  }
+
+  /* ---------- Intro: Pille antippen ---------- */
+  #intro{
+    position:fixed;inset:0;z-index:50;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+    padding:24px;text-align:center;
+    background:radial-gradient(circle at 50% 45%, #10237a 0%, #050821 70%);
+    transition:opacity .9s ease, visibility .9s;
+  }
+  #intro.hide{opacity:0;visibility:hidden}
+  #intro p{font-family:'Orbitron',sans-serif;letter-spacing:.25em;font-size:.78rem;text-transform:uppercase;opacity:.8}
+  .pill{
+    width:150px;height:62px;border-radius:999px;border:none;cursor:pointer;
+    background:linear-gradient(90deg,#1a4dff 0 50%, #7fd0ff 50% 100%);
+    box-shadow:0 0 30px rgba(56,249,255,.7), inset 0 6px 10px rgba(255,255,255,.55), inset 0 -8px 14px rgba(0,0,40,.4);
+    transform:rotate(-25deg);
+    animation:float 3s ease-in-out infinite;
+    position:relative;
+  }
+  .pill::after{content:"";position:absolute;top:10px;left:22px;width:46px;height:10px;border-radius:10px;background:rgba(255,255,255,.6);filter:blur(1px)}
+  @keyframes float{0%,100%{transform:rotate(-25deg) translateY(0)}50%{transform:rotate(-20deg) translateY(-12px)}}
+  .tap-hint{font-size:.95rem;opacity:.75;animation:blink 1.6s infinite}
+  .pill-choice{display:flex;gap:clamp(18px,8vw,60px);align-items:flex-start;justify-content:center;width:100%}
+  .pill-option{display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;max-width:180px}
+  .pill-option .pill{width:min(130px,34vw);height:min(54px,14vw);margin:24px 0 16px}
+  .pill-label{font-family:'Orbitron',sans-serif;font-weight:800;letter-spacing:.2em;font-size:.82rem;color:var(--neon)}
+  .pill-label.red-label{color:#ff6b7a}
+  .pill-option small{font-size:.8rem;opacity:.65}
+  .pill.red{
+    background:linear-gradient(90deg,#b0122a 0 50%, #ff6b7a 50% 100%);
+    box-shadow:0 0 30px rgba(255,60,90,.65), inset 0 6px 10px rgba(255,255,255,.5), inset 0 -8px 14px rgba(40,0,0,.45);
+    animation-delay:-1.5s;
+  }
+  #intro.go-red{background:radial-gradient(circle at 50% 45%, #6b0f1d 0%, #1a0306 75%);transition:background .6s}
+  @keyframes blink{50%{opacity:.25}}
+
+  /* ---------- Layout ---------- */
+  main{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 18px 40px}
+
+  header{text-align:center;padding:30px 0 10px}
+  .motto{
+    display:inline-block;font-family:'Orbitron',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.3em;
+    padding:8px 16px;border-radius:999px;border:1px solid var(--glass-border);
+    background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    box-shadow:0 0 18px rgba(56,249,255,.35);
+  }
+  .big-30{
+    font-family:'Bungee Shade',cursive;
+    font-size:clamp(5.5rem,30vw,9rem);line-height:1;margin:22px 0 6px;
+    background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 14px rgba(56,249,255,.65)) drop-shadow(0 0 30px rgba(47,123,255,.6));
+    animation:shine 4s linear infinite;background-size:100% 200%;
+  }
+  @keyframes shine{0%{background-position:0 0}100%{background-position:0 200%}}
+
+  h1{
+    font-family:'Orbitron',sans-serif;font-weight:800;
+    font-size:clamp(1.55rem,7vw,2.3rem);line-height:1.2;margin-top:6px;
+    background:linear-gradient(90deg,var(--neon),#ffffff,var(--pink),var(--neon));
+    background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:flow 6s linear infinite;
+  }
+  @keyframes flow{to{background-position:300% 0}}
+  .subtitle{margin-top:14px;font-size:1.05rem;line-height:1.55;opacity:.9}
+
+  /* ---------- Geschenkkarte ---------- */
+  .card{
+    margin-top:34px;padding:28px 22px;border-radius:28px;text-align:center;position:relative;overflow:hidden;
+    background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:0 20px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(56,249,255,.15) inset;
+  }
+  .card::before{
+    content:"";position:absolute;inset:-50%;
+    background:conic-gradient(from 0deg, transparent 0 70%, rgba(56,249,255,.35) 80%, transparent 90%);
+    animation:spin 7s linear infinite;z-index:-1;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .label{font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:.3em;color:var(--neon);text-transform:uppercase}
+  .gift-icon{font-size:3.2rem;margin:12px 0 4px;animation:bounce 2.2s ease-in-out infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+  .gift-title{
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(1.3rem,6vw,1.75rem);line-height:1.3;
+    background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .gift-sub{margin-top:6px;font-size:.95rem;opacity:.8}
+
+  .cities{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 20px}
+  .city{
+    padding:16px 10px;border-radius:20px;background:rgba(6,11,46,.55);border:1px solid rgba(255,255,255,.15);
+  }
+  .city .flag{font-size:1.8rem}
+  .city .name{font-family:'Orbitron',sans-serif;font-weight:800;font-size:1rem;margin-top:6px;letter-spacing:.05em}
+  .city .date{margin-top:4px;color:var(--neon);font-weight:700;font-size:.95rem}
+  .vs{grid-column:1/-1;font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:.3em;opacity:.6;margin:-4px 0}
+  .cities .vs{display:none}
+
+  .message{font-size:1.06rem;line-height:1.65;font-style:italic;padding:0 4px}
+
+  /* ---------- Button ---------- */
+  .btn{
+    margin-top:26px;width:100%;padding:18px 22px;border:none;border-radius:999px;cursor:pointer;
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:1rem;letter-spacing:.12em;text-transform:uppercase;color:#04103d;
+    background:linear-gradient(90deg,var(--neon),#9fb8ff,var(--pink));background-size:200% 100%;
+    box-shadow:0 0 22px rgba(56,249,255,.6),0 8px 22px rgba(0,0,0,.35);
+    transition:transform .15s ease, box-shadow .2s ease;animation:flow 5s linear infinite;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:active{transform:scale(.97)}
+  @media (hover:hover){.btn:hover{box-shadow:0 0 34px rgba(56,249,255,.9),0 10px 26px rgba(0,0,0,.4)}}
+
+  .result{
+    display:none;margin-top:20px;padding:16px;border-radius:18px;
+    background:rgba(56,249,255,.12);border:1px solid rgba(56,249,255,.4);font-weight:700;line-height:1.5;
+    animation:pop .5s cubic-bezier(.2,1.6,.4,1);
+  }
+  .result.show{display:block}
+  @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+
+  /* ---------- Auswahl-Popup ---------- */
+  .modal{
+    position:fixed;inset:0;z-index:55;display:flex;align-items:flex-end;justify-content:center;
+    background:rgba(3,6,25,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    opacity:0;visibility:hidden;transition:opacity .3s, visibility .3s;
+  }
+  .modal.open{opacity:1;visibility:visible}
+  .sheet{
+    width:100%;max-width:560px;padding:26px 20px calc(26px + env(safe-area-inset-bottom));
+    border-radius:30px 30px 0 0;
+    background:linear-gradient(170deg,#16267f,#0a1240);border-top:1px solid var(--glass-border);
+    box-shadow:0 -10px 40px rgba(56,249,255,.25);
+    transform:translateY(100%);transition:transform .45s cubic-bezier(.2,1,.3,1);text-align:center;
+  }
+  .modal.open .sheet{transform:translateY(0)}
+  @media (min-width:640px){.modal{align-items:center}.sheet{border-radius:30px}}
+  .sheet h2{font-family:'Orbitron',sans-serif;font-size:1.25rem;margin-bottom:6px}
+  .sheet p{opacity:.8;font-size:.95rem;margin-bottom:20px}
+  .choices{display:grid;gap:12px}
+  .choice{
+    display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;cursor:pointer;text-align:left;
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:var(--silver);
+    font-family:inherit;font-size:1rem;transition:transform .15s, background .2s, border-color .2s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .choice:active{transform:scale(.98)}
+  .choice:hover{background:rgba(56,249,255,.14);border-color:var(--neon)}
+  .choice .flag{font-size:2rem}
+  .choice strong{display:block;font-family:'Orbitron',sans-serif;font-size:1.05rem;letter-spacing:.04em}
+  .choice span{color:var(--neon);font-weight:700;font-size:.9rem}
+  .later{margin-top:16px;background:none;border:none;color:var(--silver);opacity:.6;font-family:inherit;font-size:.9rem;cursor:pointer;padding:8px}
+
+  /* ---------- Musik-Button ---------- */
+  .music{
+    position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:40;
+    width:48px;height:48px;border-radius:50%;border:1px solid var(--glass-border);cursor:pointer;
+    background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    color:#fff;font-size:1.3rem;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 16px rgba(56,249,255,.4);
+  }
+  .music.playing{animation:pulse 1.2s ease-in-out infinite}
+  @keyframes pulse{50%{box-shadow:0 0 30px rgba(56,249,255,.9)}}
+
+  footer{
+    position:relative;z-index:1;text-align:center;padding:30px 18px calc(40px + env(safe-area-inset-bottom));
+    font-family:'Orbitron',sans-serif;font-weight:800;font-size:clamp(1.05rem,4.8vw,1.35rem);letter-spacing:.04em;
+  }
+  footer .heart{display:inline-block;animation:beat 1.1s ease-in-out infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}30%{transform:scale(1.3)}}
+
+  /* Einblend-Animation */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease, transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body class="locked">
+
+<canvas id="sparkles"></canvas>
+
+<!-- Eigenes freigestelltes Bild: als "hintergrund.png" in denselben Ordner legen.
+     Fehlt die Datei, wird das Element einfach ausgeblendet. -->
+<img class="bg-figure" src="hintergrund.png" alt="" aria-hidden="true" onerror="this.remove()">
+
+<!-- Eigene Y2K-Pop-Art-Sticker (SVG) -->
+<div class="stickers" aria-hidden="true">
+  <!-- Schmetterling -->
+  <svg class="sticker s1" viewBox="0 0 100 80">
+    <defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38f9ff"/><stop offset="1" stop-color="#ff5ce1"/></linearGradient></defs>
+    <path d="M50 40 C30 0 0 5 8 30 C12 42 30 44 50 40Z M50 40 C70 0 100 5 92 30 C88 42 70 44 50 40Z" fill="url(#gb)" stroke="#fff" stroke-width="2"/>
+    <path d="M50 42 C35 55 18 75 30 76 C40 77 48 62 50 42Z M50 42 C65 55 82 75 70 76 C60 77 52 62 50 42Z" fill="url(#gb)" opacity=".8" stroke="#fff" stroke-width="2"/>
+    <rect x="47" y="25" width="6" height="40" rx="3" fill="#fff"/>
+  </svg>
+  <!-- Herz-Sticker -->
+  <svg class="sticker s2" viewBox="0 0 100 90">
+    <path d="M50 85 C10 55 0 35 12 18 C24 2 44 8 50 24 C56 8 76 2 88 18 C100 35 90 55 50 85Z" fill="#ff5ce1" stroke="#fff" stroke-width="4"/>
+    <text x="50" y="52" text-anchor="middle" font-family="Orbitron,sans-serif" font-weight="800" font-size="18" fill="#fff">XOXO</text>
+  </svg>
+  <!-- CD -->
+  <svg class="sticker s3" viewBox="0 0 100 100">
+    <defs><radialGradient id="cd"><stop offset=".15" stop-color="#0d1a5c"/><stop offset=".2" stop-color="#e9eef7"/><stop offset=".55" stop-color="#9fb8ff"/><stop offset=".75" stop-color="#ff5ce1"/><stop offset="1" stop-color="#38f9ff"/></radialGradient></defs>
+    <circle cx="50" cy="50" r="46" fill="url(#cd)" stroke="#fff" stroke-width="2"/>
+    <circle cx="50" cy="50" r="8" fill="#060b2e" stroke="#fff" stroke-width="2"/>
+  </svg>
+  <!-- Funkelstern -->
+  <svg class="sticker s4" viewBox="0 0 100 100">
+    <path d="M50 0 L58 42 L100 50 L58 58 L50 100 L42 58 L0 50 L42 42Z" fill="#fff"/>
+  </svg>
+  <!-- Klapphandy -->
+  <svg class="sticker s5" viewBox="0 0 60 120">
+    <rect x="6" y="2" width="48" height="56" rx="12" fill="#c9d3e6" stroke="#fff" stroke-width="2"/>
+    <rect x="13" y="10" width="34" height="36" rx="5" fill="#38f9ff"/>
+    <path d="M22 26 l4 4 l8 -9" stroke="#0d1a5c" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="6" y="60" width="48" height="58" rx="12" fill="#9fb8ff" stroke="#fff" stroke-width="2"/>
+    <g fill="#fff"><circle cx="18" cy="76" r="3.5"/><circle cx="30" cy="76" r="3.5"/><circle cx="42" cy="76" r="3.5"/><circle cx="18" cy="88" r="3.5"/><circle cx="30" cy="88" r="3.5"/><circle cx="42" cy="88" r="3.5"/><circle cx="18" cy="100" r="3.5"/><circle cx="30" cy="100" r="3.5"/><circle cx="42" cy="100" r="3.5"/></g>
+    <rect x="44" y="-14" width="5" height="18" rx="2.5" fill="#fff"/>
+  </svg>
+  <!-- Lipgloss -->
+  <svg class="sticker s6" viewBox="0 0 50 120">
+    <rect x="14" y="0" width="22" height="42" rx="6" fill="#ff5ce1" stroke="#fff" stroke-width="2"/>
+    <rect x="10" y="40" width="30" height="76" rx="10" fill="rgba(255,255,255,.35)" stroke="#fff" stroke-width="2"/>
+    <rect x="15" y="55" width="20" height="56" rx="7" fill="#ff8fe9"/>
+    <text x="25" y="88" text-anchor="middle" font-family="Orbitron,sans-serif" font-weight="800" font-size="8" fill="#fff" transform="rotate(-90 25 88)">GLOSS</text>
+  </svg>
+  <!-- Smiley -->
+  <svg class="sticker s7" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="#38f9ff" stroke="#fff" stroke-width="4"/>
+    <ellipse cx="36" cy="40" rx="5" ry="9" fill="#0d1a5c"/><ellipse cx="64" cy="40" rx="5" ry="9" fill="#0d1a5c"/>
+    <path d="M28 60 Q50 82 72 60" stroke="#0d1a5c" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </svg>
+  <!-- Mini-Funkeln -->
+  <svg class="sticker s8" viewBox="0 0 100 100"><path d="M50 0 L58 42 L100 50 L58 58 L50 100 L42 58 L0 50 L42 42Z" fill="#ff5ce1"/></svg>
+  <svg class="sticker s9" viewBox="0 0 100 100"><path d="M50 0 L58 42 L100 50 L58 58 L50 100 L42 58 L0 50 L42 42Z" fill="#38f9ff"/></svg>
+  <!-- Sonnenbrille -->
+  <svg class="sticker s10" viewBox="0 0 120 50">
+    <path d="M4 10 H116" stroke="#fff" stroke-width="4"/>
+    <path d="M8 10 H54 L50 36 Q46 46 30 46 Q12 46 9 34Z" fill="#ff5ce1" stroke="#fff" stroke-width="3"/>
+    <path d="M66 10 H112 L111 34 Q108 46 90 46 Q74 46 70 36Z" fill="#38f9ff" stroke="#fff" stroke-width="3"/>
+  </svg>
+  <!-- Blitz -->
+  <svg class="sticker s11" viewBox="0 0 60 100">
+    <path d="M36 0 L6 56 H28 L20 100 L56 38 H34Z" fill="#dfe6f2" stroke="#ff5ce1" stroke-width="3" stroke-linejoin="round"/>
+  </svg>
+</div>
+<canvas id="confetti"></canvas>
+
+<!-- Intro: Pille antippen startet die Seite und die Musik -->
+<div id="intro">
+  <p>Red Pill oder Blue Pill?</p>
+  <div class="pill-choice">
+    <div class="pill-option">
+      <button class="pill red" id="redPill" aria-label="Red Pill nehmen"></button>
+      <span class="pill-label red-label">RED PILL</span>
+      <small>Welcome to the 30s</small>
+    </div>
+    <div class="pill-option">
+      <button class="pill" id="pill" aria-label="Blue Pill nehmen"></button>
+      <span class="pill-label">BLUE PILL</span>
+      <small>Stay forever young</small>
+    </div>
+  </div>
+  <div class="tap-hint">Wähle deine Pille 💊</div>
+</div>
+
+<!-- Musik: unsichtbarer YouTube-Player (Video-ID im Skript: YT_ID) -->
+<div style="position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden" aria-hidden="true">
+  <div id="yt"></div>
+</div>
+<button class="music" id="musicBtn" aria-label="Musik an/aus">🔇</button>
+
+<main>
+  <header class="reveal">
+    <span class="motto">BLUE PILL – STAY FOREVER YOUNG 🎤✨</span>
+    <div class="big-30">30</div>
+    <h1>Du hast die Blue Pill gewählt!</h1>
+    <p class="subtitle">Willkommen zurück in den 2000ern – Zeit, die Jugend zu feiern!</p>
+  </header>
+
+  <div class="ticker reveal" aria-hidden="true"><div class="track">
+    <span>STAY FOREVER YOUNG ✦</span><span>BLUE PILL ✦</span><span>XOXO ✦</span><span>BACK TO 2000 ✦</span><span>LIVE IN CONCERT ✦</span><span>30 &amp; FABULOUS ✦</span>
+    <span>STAY FOREVER YOUNG ✦</span><span>BLUE PILL ✦</span><span>XOXO ✦</span><span>BACK TO 2000 ✦</span><span>LIVE IN CONCERT ✦</span><span>30 &amp; FABULOUS ✦</span>
+  </div></div>
+  <div class="ticker alt reveal" aria-hidden="true"><div class="track">
+    <span>♥ BFF</span><span>♥ ROADTRIP</span><span>♥ SING ALONG</span><span>♥ GLITTER</span><span>♥ POP PRINCESS</span><span>♥ 2 TICKETS</span>
+    <span>♥ BFF</span><span>♥ ROADTRIP</span><span>♥ SING ALONG</span><span>♥ GLITTER</span><span>♥ POP PRINCESS</span><span>♥ 2 TICKETS</span>
+  </div></div>
+
+  <section class="card reveal">
+    <div class="badge" aria-hidden="true">100%<br>2000s<br>VIBES</div>
+    <div class="bubble" aria-hidden="true">OMG!</div>
+    <div class="label">Dein Geschenk</div>
+    <div class="gift-icon">🎟️</div>
+    <div class="gift-title">Tickets für das Hilary Duff Konzert</div>
+    <div class="gift-sub">Live. Laut. Wie damals.</div>
+
+    <div class="cities">
+      <div class="city">
+        <div class="flag">🇩🇪</div>
+        <div class="name">BERLIN</div>
+        <div class="date">12. Mai</div>
+      </div>
+      <div class="city">
+        <div class="flag">🇩🇰</div>
+        <div class="name">KOPENHAGEN</div>
+        <div class="date">20. Mai</div>
+      </div>
+    </div>
+
+    <p class="message">„Pack deine Koffer, wir reisen zurück in unsere Jugend, singen laut mit und machen daraus einen unvergesslichen Städtetrip zu zweit!“</p>
+
+    <button class="btn" id="chooseBtn">Reiseziel wählen ✈️</button>
+    <div class="result" id="result" role="status"></div>
+  </section>
+</main>
+
+<footer class="reveal">Alles Gute zum 30. Geburtstag! <span class="heart">❤️</span></footer>
+
+<!-- Auswahl-Popup -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">Wohin geht die Zeitreise?</h2>
+    <p>Du entscheidest – ich buche den Rest. 💙</p>
+    <div class="choices">
+      <button class="choice" data-city="Berlin" data-date="12. Mai">
+        <span class="flag">🇩🇪</span>
+        <div><strong>Berlin</strong><span>12. Mai</span></div>
+      </button>
+      <button class="choice" data-city="Kopenhagen" data-date="20. Mai">
+        <span class="flag">🇩🇰</span>
+        <div><strong>Kopenhagen</strong><span>20. Mai</span></div>
+      </button>
+    </div>
+    <button class="later" id="closeBtn">Ich überleg noch kurz …</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  /* ---------- Glitzer ---------- */
+  const sc = $('sparkles'), sx = sc.getContext('2d');
+  let stars = [];
+  function sizeCanvas(c){ c.width = innerWidth * dpr; c.height = innerHeight * dpr; }
+  function initStars(){
+    sizeCanvas(sc);
+    const n = Math.round((innerWidth * innerHeight) / 9000);
+    stars = Array.from({length:n}, () => ({
+      x: Math.random() * sc.width, y: Math.random() * sc.height,
+      r: (Math.random() * 1.6 + .4) * dpr,
+      p: Math.random() * Math.PI * 2, s: Math.random() * .03 + .01,
+      vy: (Math.random() * .25 + .05) * dpr,
+      c: ['#ffffff','#38f9ff','#9fb8ff','#ff5ce1'][Math.floor(Math.random()*4)]
+    }));
+  }
+  function drawStars(){
+    sx.clearRect(0,0,sc.width,sc.height);
+    for (const s of stars){
+      s.p += s.s; s.y -= s.vy;
+      if (s.y < -5) { s.y = sc.height + 5; s.x = Math.random() * sc.width; }
+      const a = (Math.sin(s.p) + 1) / 2;
+      sx.globalAlpha = a * .9;
+      sx.fillStyle = s.c;
+      sx.beginPath(); sx.arc(s.x, s.y, s.r, 0, Math.PI*2); sx.fill();
+      if (a > .85){ // kleiner Funkel-Stern
+        sx.strokeStyle = s.c; sx.lineWidth = .6 * dpr;
+        sx.beginPath();
+        sx.moveTo(s.x - s.r*4, s.y); sx.lineTo(s.x + s.r*4, s.y);
+        sx.moveTo(s.x, s.y - s.r*4); sx.lineTo(s.x, s.y + s.r*4);
+        sx.stroke();
+      }
+    }
+    sx.globalAlpha = 1;
+    requestAnimationFrame(drawStars);
+  }
+  initStars(); drawStars();
+
+  /* ---------- Konfetti ---------- */
+  const cc = $('confetti'), cx = cc.getContext('2d');
+  let pieces = [], running = false;
+  sizeCanvas(cc);
+  const colors = ['#38f9ff','#2f7bff','#ff5ce1','#ffffff','#c9d3e6','#9fb8ff'];
+  function burst(count = 160){
+    for (let i = 0; i < count; i++){
+      pieces.push({
+        x: cc.width / 2, y: cc.height * .55,
+        vx: (Math.random() - .5) * 18 * dpr, vy: (Math.random() * -18 - 6) * dpr,
+        w: (Math.random() * 8 + 5) * dpr, h: (Math.random() * 5 + 3) * dpr,
+        rot: Math.random() * 360, vr: (Math.random() - .5) * 14,
+        c: colors[Math.floor(Math.random() * colors.length)], life: 0
+      });
+    }
+    if (!running){ running = true; requestAnimationFrame(drawConfetti); }
+  }
+  function drawConfetti(){
+    cx.clearRect(0,0,cc.width,cc.height);
+    pieces.forEach(p => {
+      p.vy += .45 * dpr; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life++;
+      cx.save(); cx.translate(p.x, p.y); cx.rotate(p.rot * Math.PI / 180);
+      cx.fillStyle = p.c; cx.fillRect(-p.w/2, -p.h/2, p.w, p.h * Math.abs(Math.cos(p.life * .1)));
+      cx.restore();
+    });
+    pieces = pieces.filter(p => p.y < cc.height + 40);
+    if (pieces.length) requestAnimationFrame(drawConfetti);
+    else { running = false; cx.clearRect(0,0,cc.width,cc.height); }
+  }
+
+  addEventListener('resize', () => { initStars(); sizeCanvas(cc); });
+
+  /* ---------- Musik ---------- */
+  const YT_ID = 'nvju-ZY8peo';
+  const musicBtn = $('musicBtn');
+  function setMusicUI(on){ musicBtn.textContent = on ? '🎵' : '🔇'; musicBtn.classList.toggle('playing', on); }
+  let yt, ytReady = false, wantPlay = false;
+
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  window.onYouTubeIframeAPIReady = () => {
+    yt = new YT.Player('yt', {
+      videoId: YT_ID, width: 1, height: 1,
+      playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: YT_ID, playsinline: 1 },
+      events: {
+        onReady: () => { ytReady = true; yt.setVolume(70); if (wantPlay) yt.playVideo(); },
+        onStateChange: e => setMusicUI(e.data === YT.PlayerState.PLAYING)
+      }
+    });
+  };
+  function playSong(){ wantPlay = true; if (ytReady) yt.playVideo(); }
+  function pauseSong(){ wantPlay = false; if (ytReady) yt.pauseVideo(); }
+  musicBtn.addEventListener('click', () =>
+    ytReady && yt.getPlayerState() === YT.PlayerState.PLAYING ? pauseSong() : playSong());
+
+  /* ---------- Intro ---------- */
+  const reveals = document.querySelectorAll('.reveal');
+  $('pill').addEventListener('click', () => {
+    playSong();                       // Mobile Browser erlauben Ton erst nach einem Tippen
+    $('intro').classList.add('hide');
+    document.body.classList.remove('locked');
+    burst(120);
+    reveals.forEach((el, i) => setTimeout(() => el.classList.add('in'), 350 + i * 300));
+  });
+
+  /* Red Pill → eigene Seite (red-pill-30.html im selben Ordner) */
+  $('redPill').addEventListener('click', () => {
+    const intro = $('intro');
+    intro.classList.add('go-red');
+    intro.querySelectorAll('.pill-choice, p, .tap-hint').forEach(el => {
+      el.style.transition = 'opacity .5s'; el.style.opacity = '0';
+    });
+    setTimeout(() => { location.href = 'red-pill-30.html'; }, 700);
+  });
+
+  /* ---------- Auswahl ---------- */
+  const modal = $('modal');
+  const openModal = () => { modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); burst(60); };
+  const closeModal = () => { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); };
+  $('chooseBtn').addEventListener('click', openModal);
+  $('closeBtn').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const city = btn.dataset.city, date = btn.dataset.date;
+      closeModal();
+      const r = $('result');
+      r.classList.remove('show'); void r.offsetWidth;
+      r.innerHTML = `🎉 Abgemacht: <strong>${city}</strong> am <strong>${date}</strong>!<br>Wir sehen uns in der ersten Reihe – Mitsingen ist Pflicht! 🎤`;
+      r.classList.add('show');
+      $('chooseBtn').textContent = 'Doch anders entscheiden? 🔄';
+      burst(220);
+      setTimeout(() => burst(140), 450);
+      if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+    });
+  });
+})();
+</script>
+</body>
+</html>
