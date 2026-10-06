@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alles Gute, liebe Bruni! 🌅</title>
+
+  <!-- Schriften: Playfair (elegant), Dancing Script (poetisch), Nunito (Fließtext) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Nunito:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS (Play-CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            turquoise:  '#2EC4C6',
+            aqua:       '#7FE3D6',
+            medblue:    '#0B4F8A',
+            deepsea:    '#083358',
+            coral:      '#FF6F61',
+            sun:        '#FFC93C',
+            peach:      '#FFB38A',
+            terracotta: '#C8553D',
+            sand:       '#F6E7C8',
+            palm:       '#2D8A4E',
+            foam:       '#FFFDF7',
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            script:  ['"Dancing Script"', 'cursive'],
+            body:    ['Nunito', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: Nunito, sans-serif; background: #FFFDF7; color: #083358; overflow-x: hidden; }
+
+    /* ---------- Hero: Ibiza-Sonnenuntergang ---------- */
+    .sunset-sky {
+      background: linear-gradient(180deg,
+        #6B4E9B 0%, #C9628A 18%, #FF6F61 36%, #FFB38A 52%, #FFD580 62%);
+    }
+    .sea {
+      background: linear-gradient(180deg, #2EC4C6 0%, #127B9C 35%, #0B4F8A 70%, #083358 100%);
+    }
+    .sun-disc {
+      background: radial-gradient(circle at 50% 50%, #FFF3B0 0%, #FFC93C 55%, #FF8E4F 100%);
+      box-shadow: 0 0 80px 30px rgba(255, 201, 60, .55), 0 0 160px 80px rgba(255, 111, 97, .25);
+      animation: sunset 9s ease-in-out infinite alternate;
+    }
+    @keyframes sunset { from { transform: translate(-50%, -6%); } to { transform: translate(-50%, 8%); } }
+
+    .reflection span {
+      display: block; height: 4px; margin: 10px auto; border-radius: 9999px;
+      background: linear-gradient(90deg, transparent, rgba(255, 213, 128, .85), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100% { opacity: .35; transform: scaleX(.8); } 50% { opacity: 1; transform: scaleX(1.05); } }
+
+    .wave { animation: waveMove 8s linear infinite; }
+    @keyframes waveMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* Palmenblätter wiegen sich */
+    .palm { transform-origin: 0% 0%; animation: sway 5s ease-in-out infinite alternate; }
+    .palm.right { transform-origin: 100% 0%; animation-duration: 6s; }
+    @keyframes sway { from { transform: rotate(-4deg); } to { transform: rotate(5deg); } }
+
+    .greeting-fade { transition: opacity .35s ease, transform .35s ease; }
+    .greeting-fade.out { opacity: 0; transform: translateY(12px); }
+
+    .lang-btn.active { background: #FFFDF7; color: #C8553D; box-shadow: 0 4px 14px rgba(0,0,0,.15); }
+
+    /* ---------- Pergament / Poesie ---------- */
+    .parchment {
+      background:
+        radial-gradient(ellipse at top left, rgba(200, 85, 61, .10), transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(200, 85, 61, .14), transparent 55%),
+        linear-gradient(135deg, #FBF1DA 0%, #F3DFB5 100%);
+      box-shadow: 0 10px 30px rgba(120, 72, 30, .18), inset 0 0 40px rgba(160, 110, 50, .18);
+      border-radius: 6px 18px 8px 22px / 18px 6px 22px 8px;
+    }
+    .poem { font-family: "Dancing Script", cursive; font-size: 1.45rem; line-height: 1.55; white-space: pre-line; }
+
+    /* ---------- Jazz-Lounge ---------- */
+    .lounge-bg {
+      background:
+        radial-gradient(circle at 80% 15%, rgba(255, 201, 60, .35), transparent 35%),
+        linear-gradient(160deg, #083358 0%, #0B4F8A 45%, #C8553D 100%);
+    }
+    .flying-note {
+      position: absolute; pointer-events: none; font-size: 2rem; color: #FFC93C;
+      text-shadow: 0 2px 10px rgba(0,0,0,.25);
+      animation: flyUp 2.6s ease-out forwards;
+    }
+    @keyframes flyUp {
+      0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(.6); }
+      15%  { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--dx), -260px) rotate(var(--rot)) scale(1.3); }
+    }
+    .sax-playing { animation: pulse 0.6s ease-in-out infinite alternate; }
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+    /* Rahmen für Werners Porträt */
+    .frame-ibiza     { border: 12px solid #FFFDF7; outline: 4px solid #0B4F8A; outline-offset: -8px; }
+
+    /* Werner-Begleiter */
+    .bubble { transition: opacity .3s, transform .3s; }
+    .bubble.hidden-bubble { opacity: 0; transform: translateY(8px) scale(.95); pointer-events: none; }
+
+    #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="confetti"></canvas>
+
+  <!-- ======================= NAVIGATION + SPRACH-UMSCHALTER ======================= -->
+  <header class="fixed top-0 inset-x-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <a href="#top" class="font-display text-foam text-lg drop-shadow hidden sm:block">🌴 Brunis Sunset Club</a>
+      <nav id="langSwitcher" class="ml-auto flex flex-wrap justify-end gap-1 bg-white/25 backdrop-blur-md rounded-full p-1 shadow-lg" aria-label="Sprache wählen"></nav>
+    </div>
+  </header>
+
+  <!-- ======================= 1. HERO ======================= -->
+  <section id="top" class="relative min-h-screen overflow-hidden">
+    <!-- Himmel -->
+    <div class="sunset-sky absolute inset-x-0 top-0 h-[64%]"></div>
+    <!-- Sonne -->
+    <div class="sun-disc absolute left-1/2 top-[38%] w-44 h-44 sm:w-64 sm:h-64 rounded-full"></div>
+    <!-- Meer -->
+    <div class="sea absolute inset-x-0 bottom-0 h-[36%] overflow-hidden">
+      <div class="reflection absolute left-1/2 -translate-x-1/2 top-2 w-64">
+        <span class="w-56"></span><span class="w-40" style="animation-delay:.4s"></span>
+        <span class="w-48" style="animation-delay:.8s"></span><span class="w-24" style="animation-delay:1.2s"></span>
+      </div>
+      <svg class="wave absolute bottom-6 left-0 w-[200%] h-16 opacity-40" viewBox="0 0 1440 80" preserveAspectRatio="none">
+        <path fill="#7FE3D6" d="M0 40 Q 90 0 180 40 T 360 40 T 540 40 T 720 40 T 900 40 T 1080 40 T 1260 40 T 1440 40 V80 H0Z"/>
+      </svg>
+      <svg class="wave absolute -bottom-2 left-0 w-[200%] h-20 opacity-90" style="animation-duration:12s" viewBox="0 0 1440 80" preserveAspectRatio="none">
+        <path fill="#F6E7C8" d="M0 50 Q 120 20 240 50 T 480 50 T 720 50 T 960 50 T 1200 50 T 1440 50 V80 H0Z"/>
+      </svg>
+    </div>
+
+    <!-- Palmenblätter (Ecken) -->
+    <svg class="palm absolute -top-4 -left-6 w-48 sm:w-72 text-palm drop-shadow-xl" viewBox="0 0 200 200" fill="currentColor" aria-hidden="true">
+      <path d="M0 0 C 60 10 110 40 160 110 C 120 80 80 60 0 40Z"/>
+      <path d="M0 10 C 40 50 70 100 80 180 C 60 130 30 90 0 70Z" opacity=".85"/>
+      <path d="M0 0 C 70 -10 140 10 200 50 C 140 40 80 30 0 20Z" opacity=".7"/>
+    </svg>
+    <svg class="palm right absolute -top-4 -right-6 w-48 sm:w-72 text-palm drop-shadow-xl" viewBox="0 0 200 200" fill="currentColor" aria-hidden="true">
+      <path d="M200 0 C 140 10 90 40 40 110 C 80 80 120 60 200 40Z"/>
+      <path d="M200 10 C 160 50 130 100 120 180 C 140 130 170 90 200 70Z" opacity=".85"/>
+      <path d="M200 0 C 130 -10 60 10 0 50 C 60 40 120 30 200 20Z" opacity=".7"/>
+    </svg>
+
+    <!-- Banner -->
+    <div class="relative z-10 min-h-screen flex flex-col items-center justify-start pt-28 sm:pt-32 px-4 text-center">
+      <p id="greetingKicker" class="greeting-fade font-script text-2xl sm:text-3xl text-foam drop-shadow">Heute feiern wir dich!</p>
+      <h1 id="greeting" class="greeting-fade font-display font-extrabold text-4xl sm:text-6xl md:text-7xl text-foam leading-tight mt-2 max-w-4xl"
+          style="text-shadow: 0 4px 24px rgba(200,85,61,.6)">
+        Alles Gute zum Geburtstag, liebe Bruni!
+      </h1>
+      <p id="greetingSub" class="greeting-fade mt-4 text-foam/95 text-lg sm:text-xl max-w-2xl font-semibold drop-shadow">
+        Für die coolste Dichterin, Sprachen-Weltmeisterin und Sonnenuntergangs-Genießerin.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3 justify-center">
+        <button id="celebrateBtn" class="px-6 py-3 rounded-full bg-sun text-deepsea font-extrabold shadow-xl hover:scale-105 active:scale-95 transition">🎉 Konfetti!</button>
+        <a href="#poesie" class="px-6 py-3 rounded-full bg-foam/90 text-terracotta font-extrabold shadow-xl hover:scale-105 transition">Zur Strandparty ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 2. POESIE AM STRAND ======================= -->
+  <section id="poesie" class="relative bg-sand py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-center font-script text-3xl text-terracotta">🐚 Brunis Dichter-Ecke</p>
+      <h2 class="text-center font-display text-4xl sm:text-5xl font-extrabold mt-1">Poesie am Strand</h2>
+      <p class="text-center mt-3 max-w-2xl mx-auto text-deepsea/80">Worte, so warm wie Sand unter den Füßen – und so klug wie ihre Verfasserin.</p>
+
+      <!-- 📝 HIER BRUNIS ECHTE GEDICHTE EINTRAGEN: im JavaScript unten im Array "POEMS" -->
+      <div id="poemGrid" class="grid md:grid-cols-3 gap-8 mt-12"></div>
+
+      <!-- Reim-O-Mat + Quiz -->
+      <div class="grid lg:grid-cols-2 gap-8 mt-16">
+        <!-- Reim-O-Mat -->
+        <div class="bg-foam rounded-3xl p-6 sm:p-8 shadow-xl border-4 border-turquoise/40">
+          <h3 class="font-display text-2xl font-extrabold">🪄 Der Reim-O-Mat</h3>
+          <p class="text-sm mt-1 text-deepsea/70">Gib ein beliebiges Wort ein (z. B. <em>Sonne, Katze, Garten, Ibiza, Saxophon</em>) – der Reim-O-Mat dichtet im Stil von Bruni.</p>
+          <div id="rhymeForm" class="mt-4 flex gap-2">
+            <input id="rhymeInput" type="text" placeholder="Dein Schlagwort…" autocomplete="off" enterkeyhint="go"
+              class="flex-1 min-w-0 rounded-full px-5 py-3 bg-sand/60 border-2 border-sand focus:border-turquoise outline-none font-semibold" />
+            <button id="rhymeBtn" type="button" class="rounded-full px-5 py-3 bg-turquoise text-foam font-extrabold hover:bg-medblue transition">Reimen!</button>
+          </div>
+          <div id="rhymeOut" class="parchment mt-5 p-5 min-h-[140px]">
+            <p class="poem text-deepsea/60 text-xl">Hier erscheint gleich ein kleines Strand-Gedicht …</p>
+          </div>
+        </div>
+
+        <!-- Sprachen-Quiz -->
+        <div class="bg-foam rounded-3xl p-6 sm:p-8 shadow-xl border-4 border-coral/40">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="font-display text-2xl font-extrabold">🌍 Brunis Sprachen-Quiz</h3>
+            <span id="quizScore" class="text-sm font-extrabold bg-coral/15 text-terracotta rounded-full px-3 py-1">0 / 0</span>
+          </div>
+          <p class="text-sm mt-1 text-deepsea/70">Kannst du mit Bruni mithalten? (Spoiler: Niemand kann das.)</p>
+          <div id="quizBox" class="mt-5"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 3. WERNERS SUNSET JAZZ LOUNGE ======================= -->
+  <section id="lounge" class="lounge-bg relative py-20 px-4 text-foam overflow-hidden">
+    <div class="max-w-6xl mx-auto">
+      <p class="text-center font-script text-3xl text-sun">🎷 Featuring: Werner</p>
+      <h2 class="text-center font-display text-4xl sm:text-5xl font-extrabold mt-1">Sunset Jazz Lounge</h2>
+
+      <div class="grid md:grid-cols-2 gap-10 items-center mt-12">
+        <!-- Werner-Porträt -->
+        <div class="relative mx-auto w-full max-w-sm">
+          <div class="frame-ibiza rounded-2xl overflow-hidden shadow-2xl bg-sand aspect-[2/3] relative">
+            <!-- 📷 WERNER-BILD: Lege die Datei "werner-saxophon.png" in denselben Ordner wie diese HTML-Datei -->
+            <img id="opaImg" src="werner-saxophon.png" alt="Werner spielt Saxophon am Strand" class="w-full h-full object-cover" />
+            <div id="opaFallback" class="hidden absolute inset-0 flex-col items-center justify-center bg-gradient-to-b from-peach via-sun/70 to-turquoise text-deepsea">
+              <span class="text-8xl">🎷</span>
+              <span class="font-script text-3xl mt-3">Werner in Concert</span>
+              <span class="text-xs mt-2 px-6 text-center opacity-70">(Bild „werner-saxophon.png“ neben die HTML-Datei legen)</span>
+            </div>
+          </div>
+          <div id="noteStage" class="absolute inset-0 pointer-events-none"></div>
+        </div>
+
+        <!-- Text + Saxophon-Button -->
+        <div>
+          <p class="text-lg leading-relaxed text-foam/90">
+            Während Bruni die Worte tanzen lässt, lässt Werner die Töne fliegen. Mit Hawaiihemd, geschlossenen Augen
+            und ganz viel Gefühl spielt er das offizielle Geburtstags-Ständchen – direkt in den Sonnenuntergang.
+          </p>
+          <button id="saxBtn" class="mt-8 w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-sun text-deepsea font-extrabold text-lg shadow-2xl hover:scale-105 transition">
+            <span class="text-2xl">🎷</span> <span id="saxBtnLabel">Ibiza Sunset Saxophon-Ständchen</span>
+          </button>
+          <p id="saxHint" class="mt-3 text-sm text-foam/70">Ton an! 🔊</p>
+          <!-- 🎵 AUDIO: Lege Werners Aufnahme als "werner-saxophon.mp3" neben die HTML-Datei.
+               Fehlt sie, spielt automatisch eine kleine synthetische Jazz-Melodie. -->
+          <audio id="saxAudio" src="werner-saxophon.mp3" preload="auto"></audio>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================= 4. FOOTER ======================= -->
+  <footer class="bg-deepsea text-foam text-center py-12 px-4">
+    <p class="text-4xl">🌅 🌴 🎷 📜</p>
+    <p class="font-script text-2xl sm:text-3xl mt-4">Programmiert mit ganz viel Liebe &amp; Sonne für die coolste Bruni der Welt</p>
+    <p class="text-foam/60 text-sm mt-3">… und mit musikalischer Unterstützung von Werner.</p>
+  </footer>
+
+  <!-- ======================= WERNER – der Support-Charakter ======================= -->
+  <div class="fixed bottom-4 left-4 z-50 flex items-end gap-2">
+    <button id="opaBuddy" class="w-16 h-16 rounded-full bg-sun shadow-2xl border-4 border-foam overflow-hidden flex items-center justify-center text-3xl hover:scale-110 transition" aria-label="Werner sagt etwas">
+      🎷
+    </button>
+    <div id="opaBubble" class="bubble hidden-bubble max-w-[220px] bg-foam text-deepsea text-sm font-semibold rounded-2xl rounded-bl-none px-4 py-3 shadow-xl border-2 border-sun"></div>
+  </div>
+
+<script>
+/* =====================================================================
+   ✏️  INHALTE ZUM ANPASSEN
+   ===================================================================== */
+
+// 1) Begrüßungen für den Sprach-Umschalter (beliebig erweiterbar)
+const GREETINGS = {
+  de:  { label: 'DE',  kicker: 'Heute feiern wir dich!',      title: 'Alles Gute zum Geburtstag, liebe Bruni!',       sub: 'Für die coolste Dichterin, Sprachen-Weltmeisterin und Sonnenuntergangs-Genießerin.' },
+  en:  { label: 'EN',  kicker: 'Today we celebrate you!',     title: 'Happy Birthday, dear Bruni!',               sub: 'To the coolest poet, language champion and sunset lover.' },
+  es:  { label: 'ES',  kicker: '¡Hoy lo celebramos contigo!', title: '¡Feliz cumpleaños, querida Bruni!',          sub: 'Para la poeta más genial, campeona de idiomas y amante de los atardeceres.' },
+  eiv: { label: 'EIV', kicker: 'Avui és el teu dia!',         title: 'Per molts d’anys, estimada Bruni!',         sub: 'Una abraçada des d’Eivissa, amb sol, mar i molta estimació.' },
+  fr:  { label: 'FR',  kicker: 'Aujourd’hui, c’est ta fête !', title: 'Joyeux anniversaire, chère Bruni !',          sub: 'À la poétesse la plus cool, championne des langues et amoureuse des couchers de soleil.' },
+  it:  { label: 'IT',  kicker: 'Oggi festeggiamo te!',        title: 'Buon compleanno, cara Bruni!',                sub: 'Alla poetessa più in gamba, campionessa di lingue e amante dei tramonti.' },
+  pt:  { label: 'PT',  kicker: 'Hoje é o teu dia!',           title: 'Feliz aniversário, querida Bruni!',             sub: 'Para a poeta mais fixe, campeã de línguas e apaixonada por pores do sol.' },
+  ru:  { label: 'RU',  kicker: 'Сегодня твой праздник!',      title: 'С днём рождения, дорогая Бруни!', sub: 'Самой классной поэтессе, чемпионке по языкам и любительнице закатов.' },
+};
+
+// 2) 📝 BRUNIS GEDICHTE – ersetze die Platzhalter durch ihre echten Gedichte.
+//    Zeilenumbrüche einfach mit \n oder echte Umbrüche in Backticks (` `).
+const POEMS = [
+  { title: 'Wörtermuscheln', icon: '🐚', text:
+`Ich sammle Wörter wie Muscheln am Meer,
+aus jeder Sprache ein bisschen mehr.
+„Grazie“, „merci“, „gracias“ – wie schön,
+so lässt sich die ganze Welt verstehn.` },
+  { title: 'Abendrot auf Ibiza', icon: '🌅', text:
+`Die Sonne taucht ins Meer hinein,
+der Himmel glüht wie roter Wein.
+Und irgendwo am Felsenrand
+spielt einer Jazz mit leichter Hand.` },
+  { title: 'Platz für Gedicht Nr. 3', icon: '🪶', text:
+`Hier kommt Brunis schönstes Gedicht hin –
+einfach im Code den Text ersetzen
+und mit ganz viel Liebe einsetzen.` },
+];
+
+/* =====================================================================
+   1. HERO – Konfetti & Sprach-Umschalter
+   ===================================================================== */
+const confettiCanvas = document.getElementById('confetti');
+const ctx = confettiCanvas.getContext('2d');
+let particles = [];
+let confettiRunning = false;
+const CONFETTI_COLORS = ['#FF6F61', '#FFC93C', '#2EC4C6', '#7FE3D6', '#FFB38A', '#2D8A4E', '#FFFDF7', '#C8553D'];
+
+function resizeCanvas() { confettiCanvas.width = innerWidth; confettiCanvas.height = innerHeight; }
+addEventListener('resize', resizeCanvas); resizeCanvas();
+
+function launchConfetti(amount = 180) {
+  for (let i = 0; i < amount; i++) {
+    particles.push({
+      x: Math.random() * innerWidth, y: -20 - Math.random() * innerHeight * 0.5,
+      w: 6 + Math.random() * 8, h: 8 + Math.random() * 10,
+      vx: -2 + Math.random() * 4, vy: 2 + Math.random() * 4,
+      rot: Math.random() * Math.PI, vr: -0.2 + Math.random() * 0.4,
+      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+      leaf: Math.random() < 0.15, // ein paar kleine Palmblätter 🌿
+    });
+  }
+  if (!confettiRunning) { confettiRunning = true; requestAnimationFrame(drawConfetti); }
+}
+function drawConfetti() {
+  ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+  particles.forEach(p => {
+    p.x += p.vx + Math.sin(p.y / 40); p.y += p.vy; p.rot += p.vr;
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+    if (p.leaf) { ctx.font = '18px serif'; ctx.fillText('🌿', -9, 9); }
+    else { ctx.fillStyle = p.color; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); }
+    ctx.restore();
+  });
+  particles = particles.filter(p => p.y < innerHeight + 40);
+  if (particles.length) requestAnimationFrame(drawConfetti);
+  else { confettiRunning = false; ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height); }
+}
+addEventListener('load', () => setTimeout(() => launchConfetti(220), 400));
+document.getElementById('celebrateBtn').addEventListener('click', () => launchConfetti(200));
+
+// Sprach-Umschalter
+const switcher = document.getElementById('langSwitcher');
+Object.entries(GREETINGS).forEach(([code, g]) => {
+  const b = document.createElement('button');
+  b.className = 'lang-btn px-2.5 sm:px-3 py-1.5 rounded-full text-xs sm:text-sm font-extrabold text-foam hover:bg-white/30 transition';
+  b.textContent = g.label; b.dataset.lang = code;
+  b.addEventListener('click', () => setLanguage(code));
+  switcher.appendChild(b);
+});
+function setLanguage(code) {
+  const g = GREETINGS[code];
+  const els = ['greetingKicker', 'greeting', 'greetingSub'].map(id => document.getElementById(id));
+  els.forEach(el => el.classList.add('out'));
+  setTimeout(() => {
+    els[0].textContent = g.kicker; els[1].textContent = g.title; els[2].textContent = g.sub;
+    els.forEach(el => el.classList.remove('out'));
+  }, 300);
+  switcher.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === code));
+  launchConfetti(40);
+}
+switcher.querySelector('[data-lang="de"]').classList.add('active');
+
+/* =====================================================================
+   2. POESIE – Gedichte, Reim-O-Mat & Quiz
+   ===================================================================== */
+document.getElementById('poemGrid').innerHTML = POEMS.map((p, i) => `
+  <article class="parchment p-7 relative ${i % 2 ? 'md:translate-y-6' : ''} hover:-rotate-1 transition">
+    <span class="absolute -top-5 -right-3 text-4xl">${p.icon}</span>
+    <h3 class="font-display text-xl font-extrabold text-terracotta">${p.title}</h3>
+    <p class="poem mt-3 text-deepsea">${p.text}</p>
+    <p class="mt-4 text-right font-display italic text-sm text-terracotta/80">– Bruni</p>
+  </article>`).join('');
+
+// ---------------------------------------------------------------------
+// Reim-O-Mat: findet Reime zu (fast) jedem deutschen Wort.
+// Wortschatz – gerne um Lieblingswörter von Bruni & Werner erweitern!
+// ---------------------------------------------------------------------
+const WORDS = `
+Sonne Wonne Tonne Krone Zitrone Melone Bohne Zone Mohn Lohn Thron Sohn Ton schon Saxophon Telefon Balkon Pavillon Salon Marathon Million Nation Station Lektion Passion
+Meer mehr sehr leer schwer Bär Gewehr Verkehr Kaffee Tee See Fee Idee Allee Klee Schnee weh Dekolleté
+Strand Sand Hand Land Rand Band Verstand Gewand Wand Brand Pfand Elefant elegant galant brillant charmant interessant Diamant Proviant
+Licht Gedicht Gesicht Sicht Pflicht Gericht Bericht Verzicht nicht schlicht dicht Gewicht
+Herz Scherz Schmerz Terz März Erz
+Wind Kind geschwind lind blind Rind
+Welle Quelle Kapelle Libelle Stelle Gazelle Forelle Schwelle helle schnelle Novelle Frikadelle
+Nacht Pracht lacht sacht gedacht Macht Acht Fracht Jacht gemacht erwacht bedacht
+Mond gewohnt belohnt verschont bewohnt
+Stern gern fern Kern modern Laterne Ferne Sterne Kaserne Taverne
+Sprache Sache Lache Drache Wache Rache
+Wort Ort dort fort Sport Rekord Akkord Hafenort Nord Bord
+Palme Halme Qualme
+Insel Pinsel Gewinsel
+Bild mild wild Schild Gefild gestillt erfüllt
+Farbe Garbe Narbe
+Glück Stück zurück
+Freude heute Leute Beute Meute Gebäude
+Feier Leier Schleier Weiher Reiher Geier Eier Bayer
+Fest Rest Nest West Test Pest Palast
+Kuchen suchen besuchen buchen fluchen Buchen
+Wein fein Sonnenschein klein sein Bein Stein allein Verein mein dein Schein rein Wein
+blau genau Frau schlau Tau grau Bau Pfau Radau Schau Stau
+Leben schweben geben Reben eben daneben Streben weben erleben
+Liebe bliebe Triebe Diebe Hiebe Siebe
+Bruni Juni Uni
+Werner ferner
+Tag mag lag Schlag Vertrag Ertrag Montag Freitag Sonntag Geburtstag Nachmittag Feiertag
+Katze Tatze Glatze Fratze Matratze
+Garten warten Karten Arten zarten Starten Scharten
+Haus Maus raus Applaus Strauß Schmaus aus hinaus Blumenstrauß
+Hund rund bunt Mund Grund Bund gesund Pfund
+Zeit weit breit bereit Kleid Leid Freiheit Heiterkeit Ewigkeit Sommerzeit
+Welt Geld Feld Held hält Zelt fällt bestellt erzählt gefällt
+Blume Krume
+Musik Fabrik Republik Kritik Mosaik Rubrik Mathematik Romantik
+Abend labend
+Sommer Hummer Kummer Nummer Schlummer
+Ibiza Pizza
+Oma Aroma
+Opa Europa
+Freund Feind träumt säumt geräumt
+Feuer teuer Abenteuer Steuer heuer Gemäuer neuer
+Lachen machen Sachen Drachen wachen krachen Rachen
+Tanz Glanz ganz Kranz Schwanz Bilanz Distanz Eleganz
+tanzen Pflanzen Ganzen Lanzen
+Wasser nasser blasser Hasser
+Fisch Tisch frisch Gemisch
+Boot rot Brot Not Boot Abendrot Morgenrot Lot Gebot
+Hafen schlafen Schafen trafen Grafen
+Insel Pinsel
+Rose lose Hose Dose Pose Mimose
+Mut gut Glut Flut Hut Blut tut
+Gold hold Sold gewollt
+Gruß Fuß Kuss Fluss Schluss Genuss Bus Muss
+Jahr Haar klar wahr Paar Bar Star wunderbar Januar Februar Altar Kaviar
+Jahre Haare klare Ware Bare
+Enkel Schenkel Henkel
+Familie Lilie Petersilie Emilie
+Jazz
+Note Boote Pfote rote Gebote Quote
+Lied Gebiet Unterschied schied Lied
+Klavier hier Bier Tier vier Papier Pier Revier Manier Souvenir
+Pinsel Insel
+Maler Taler
+Dichterin Sinn hin Gewinn Beginn Kinn drin
+Poesie nie Fantasie Melodie Harmonie Energie Magie Sympathie Galerie Knie Genie Partie
+Strophe Katastrophe
+Reim Heim Leim Keim geheim
+Insel Pinsel
+Ferien Serien Kriterien
+Urlaub Staub Laub Raub
+Sommerwind Kind
+Muschel kuscheln
+Mittelmeer Meer
+Karibik Musik
+Saxophon Ton
+Palmenstrand Strand
+Sonnenuntergang Gesang Klang lang Drang Gang Hang Zwang entlang Anfang Empfang
+Sonnenschein Wein
+Geschenk Gelenk Getränk
+Torte Worte Pforte Sorte Orte
+Kerze Herze Scherze Schmerze
+Ballon Balkon
+Party
+Spanien Kastanien Geranien Begonien
+Kuba Tuba
+Siesta Fiesta Orchestra
+Gitarre Karre Starre
+Trompete Rakete Kette Wette Bette
+Flöte Kröte Röte Nöte
+Sprachen machen lachen Sachen
+Wörter
+Worte Torte
+Grammatik Mathematik Musik
+Englisch Spanisch Russisch
+Wolke Molke
+Schokolade Limonade Promenade Ballade Gnade schade gerade Parade Fassade Marmelade Serenade Arkade
+Himmel Schimmel Gewimmel Bimmel
+Baum Traum Raum Schaum Saum kaum Flaum
+Apfel
+Mutter Butter Futter Kutter
+Vater Kater Theater Krater
+Fenster Gespenster
+Schwester Silvester Orchester Semester Nester
+Bruder Ruder
+Morgen Sorgen borgen verborgen geborgen
+Reise Weise leise Kreise Speise Meise Greise
+Nase Vase Hase Oase Phase Blase
+Regen Segen wegen Degen gelegen verlegen
+Erde Pferde Herde Gebärde werde
+Brief tief schief rief lief
+Buch Tuch Besuch Fluch Versuch
+Wald bald kalt alt Gestalt Halt
+Berg Zwerg
+Stadt satt glatt Blatt matt hat
+Zukunft Vernunft Ankunft
+Wunsch Punsch
+Sekt perfekt entdeckt geweckt versteckt
+Gast fast Last Rast hast
+Gäste Feste Reste beste Weste
+Dank Schrank Trank Bank krank schlank
+danke Schranke Gedanke Ranke
+Brille Stille Wille Grille Villa
+Winter dahinter Kinder Rinder
+Frühling Schmetterling
+Kirche Birke
+Sommer frommer
+Schiff Riff griff Begriff
+Leuchtturm Sturm Wurm Turm
+Lächeln fächeln
+Küste Wüste
+Wellen bellen hellen Quellen
+Zauber sauber Tauber
+Party
+`.trim().split(/\s+/);
+const UNIQUE_WORDS = [...new Set(WORDS)];
+
+// Wandelt ein Wort in einen "Reimschlüssel" um (Silbe ab dem letzten betonten Vokal)
+const V = 'aeiouyäöü';
+function norm(w) {
+  return w.toLowerCase()
+    .replace(/ß/g, 'ss').replace(/äu/g, 'eu').replace(/ä/g, 'e').replace(/ph/g, 'f')
+    .replace(/ck/g, 'k').replace(/tz/g, 'z').replace(/dt$/, 't').replace(/th/g, 't')
+    .replace(new RegExp(`([${V}])h(?=[^${V}]|$)`, 'g'), '$1')         // Dehnungs-h
+    .replace(new RegExp(`([^${V}])\\1`, 'g'), '$1')                   // Doppelkonsonanten
+    .replace(/aa/g, 'a').replace(/ee(?=.)/g, 'e').replace(/oo/g, 'o').replace(/ie/g, 'i')
+    .replace(/d$/, 't').replace(/g$/, 'k').replace(/b$/, 'p');
+}
+function rhymeKey(w) {
+  const n = norm(w);
+  const groups = [...n.matchAll(new RegExp(`[${V}]+`, 'g'))];
+  if (!groups.length) return n;
+  let i = groups.length - 1;
+  let suffix = n.slice(groups[i].index);
+  // unbetonte Endung (-e, -en, -er, -el …) oder offene Endsilbe (-a, -o) → eine Silbe zurück
+  const weak = /^e[lnrmst]?s?$/.test(suffix) || /^[aiouy]$/.test(suffix);
+  if (weak && i > 0) suffix = n.slice(groups[i - 1].index);
+  return suffix;
+}
+const KEYED = UNIQUE_WORDS.map(w => ({ w, k: rhymeKey(w), n: norm(w) }));
+
+function findRhymes(word) {
+  const k = rhymeKey(word), lw = norm(word);
+  // gleiches Wort oder zusammengesetztes Wort (Palmenstrand ↔ Strand) überspringen
+  const same = x => x.n === lw || (x.n.endsWith(lw) && x.n.length - lw.length >= 3) || (lw.endsWith(x.n) && lw.length - x.n.length >= 3);
+  return [...new Set(KEYED.filter(x => x.k === k && !same(x)).map(x => x.w))];
+}
+
+const VERSES = [
+  (w, r) => `Am Strand von Ibiza, im goldenen Schein,\nfällt Bruni zu „${w}“ sofort „${r}“ ein.`,
+  (w, r) => `Werner spielt Jazz, die Wellen gehen sacht –\naus „${w}“ und „${r}“ hat Bruni ein Gedicht gemacht.`,
+  (w, r) => `Ob „${w}“, ob „${r}“, ob Meer oder Wind:\nBruni reimt schneller, als andere denken – geschwind!`,
+  (w, r) => `Die Sonne versinkt, der Himmel wird rot,\n„${w}“ reimt auf „${r}“ – wie Butter auf Brot.`,
+  (w, r) => `Ein Glas in der Hand und den Blick auf das Meer:\n„${w}“ und „${r}“ – für Bruni nicht schwer!`,
+];
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+const escapeHTML = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function runRhyme() {
+  const raw = document.getElementById('rhymeInput').value.trim();
+  const out = document.getElementById('rhymeOut');
+  if (!raw) { document.getElementById('rhymeInput').focus(); return; }
+  const word = raw.replace(/[^\p{L}\s-]/gu, '').split(/\s+/).filter(Boolean).pop() || raw;
+  const rhymes = findRhymes(word);
+  if (rhymes.length) {
+    const r = pick(rhymes);
+    out.innerHTML = `<p class="poem text-deepsea">${escapeHTML(pick(VERSES)(word, r))}</p>
+      <div class="mt-3 flex flex-wrap gap-2">${rhymes.slice(0, 10).map(x => `<span class="text-xs font-bold bg-turquoise/20 text-medblue rounded-full px-3 py-1">${x}</span>`).join('')}</div>`;
+  } else {
+    out.innerHTML = `<p class="poem text-deepsea">Auf „${escapeHTML(word)}“ reimt sich – oh weh – nicht viel,\ndoch für Bruni ist selbst das nur ein Kinderspiel! ✨</p>
+      <p class="text-xs mt-3 text-deepsea/60">Tipp: Probier mal Sonne, Katze, Garten, Herz oder Saxophon.</p>`;
+  }
+}
+document.getElementById('rhymeBtn').addEventListener('click', runRhyme);
+document.getElementById('rhymeInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); runRhyme(); }
+});
+
+// Sprachen-Quiz
+const QUIZ = [
+  { q: 'Was heißt „Meer“ auf Spanisch?', a: ['el mar', 'la mer', 'il mare', 'the sea'], c: 0 },
+  { q: 'Welche Sprache spricht man auf Ibiza neben Spanisch?', a: ['Portugiesisch', 'Katalanisch (Eivissenc)', 'Baskisch', 'Galicisch'], c: 1 },
+  { q: '„Grazie mille“ bedeutet …', a: ['Viele Grüße', 'Tausend Dank', 'Gute Nacht', 'Bis bald'], c: 1 },
+  { q: 'Wie sagt man „Großmutter“ auf Portugiesisch?', a: ['avó', 'abuela', 'nonna', 'mamie'], c: 0 },
+  { q: 'Was bedeutet das französische „coucher de soleil“?', a: ['Sonnenaufgang', 'Sonnenbrand', 'Sonnenuntergang', 'Sonnenschirm'], c: 2 },
+  { q: 'Wie stößt man auf Spanisch an?', a: ['¡Salud!', '¡Olé!', '¡Vamos!', '¡Hola!'], c: 0 },
+  { q: '„Poesía“, „poésie“, „poesia“ – was ist das deutsche Wort?', a: ['Posaune', 'Poesie', 'Post', 'Pose'], c: 1 },
+];
+let qi = 0, score = 0, answered = 0;
+const quizBox = document.getElementById('quizBox');
+const quizScore = document.getElementById('quizScore');
+
+function renderQuiz() {
+  if (qi >= QUIZ.length) {
+    const verdict = score === QUIZ.length ? 'Perfekt! Bruni ist stolz auf dich! 🏆'
+      : score >= QUIZ.length / 2 ? '¡Muy bien! Fast so gut wie Bruni. 🌞' : 'Bruni gibt dir gern Nachhilfe! 😉';
+    quizBox.innerHTML = `<div class="parchment p-6 text-center">
+      <p class="font-display text-2xl font-extrabold">${score} von ${QUIZ.length} richtig</p>
+      <p class="mt-2">${verdict}</p>
+      <button id="quizRestart" class="mt-4 rounded-full px-5 py-2 bg-coral text-foam font-extrabold">Nochmal spielen</button></div>`;
+    document.getElementById('quizRestart').onclick = () => { qi = score = answered = 0; quizScore.textContent = '0 / 0'; renderQuiz(); };
+    if (score >= QUIZ.length - 1) launchConfetti(120);
+    return;
+  }
+  const item = QUIZ[qi];
+  quizBox.innerHTML = `<p class="text-xs font-bold text-terracotta uppercase tracking-wider">Frage ${qi + 1} von ${QUIZ.length}</p>
+    <p class="font-display text-xl font-bold mt-1">${item.q}</p>
+    <div class="grid sm:grid-cols-2 gap-3 mt-4">${item.a.map((opt, i) =>
+      `<button data-i="${i}" class="quiz-opt text-left rounded-2xl px-4 py-3 bg-sand/60 hover:bg-sand font-semibold border-2 border-transparent transition">${opt}</button>`).join('')}</div>`;
+  quizBox.querySelectorAll('.quiz-opt').forEach(btn => btn.addEventListener('click', () => {
+    const i = +btn.dataset.i;
+    quizBox.querySelectorAll('.quiz-opt').forEach(b => { b.disabled = true; });
+    answered++;
+    if (i === item.c) { score++; btn.classList.add('!bg-palm', 'text-foam'); }
+    else {
+      btn.classList.add('!bg-coral', 'text-foam');
+      quizBox.querySelector(`[data-i="${item.c}"]`).classList.add('!border-palm');
+    }
+    quizScore.textContent = `${score} / ${answered}`;
+    setTimeout(() => { qi++; renderQuiz(); }, 1100);
+  }));
+}
+renderQuiz();
+
+/* =====================================================================
+   3. JAZZ-LOUNGE – Saxophon & fliegende Noten
+   ===================================================================== */
+// Werner-Bild: Fallback, falls die Datei fehlt
+const opaImg = document.getElementById('opaImg');
+opaImg.addEventListener('error', () => {
+  opaImg.remove();
+  const fb = document.getElementById('opaFallback');
+  fb.classList.remove('hidden'); fb.classList.add('flex');
+});
+// Werner-Bild auch im Begleiter-Button verwenden, wenn vorhanden
+const buddyTest = new Image();
+buddyTest.onload = () => { document.getElementById('opaBuddy').innerHTML = '<img src="werner-saxophon.png" alt="Werner" class="w-full h-full object-cover object-top">'; };
+buddyTest.src = 'werner-saxophon.png';
+
+const noteStage = document.getElementById('noteStage');
+const NOTE_CHARS = ['♪', '♫', '♬', '♩', '🎶'];
+function spawnNote() {
+  const n = document.createElement('span');
+  n.className = 'flying-note';
+  n.textContent = pick(NOTE_CHARS);
+  n.style.left = (55 + Math.random() * 35) + '%';
+  n.style.top = (35 + Math.random() * 25) + '%';
+  n.style.setProperty('--dx', (Math.random() * 160 - 60) + 'px');
+  n.style.setProperty('--rot', (Math.random() * 80 - 40) + 'deg');
+  n.style.color = pick(['#FFC93C', '#FF6F61', '#7FE3D6', '#FFFDF7']);
+  noteStage.appendChild(n);
+  setTimeout(() => n.remove(), 2700);
+}
+
+// --- Synthetisches "Saxophon" (Fallback ohne MP3) ---
+let audioCtx = null, synthTimer = null, synthNodes = [];
+const N = { D4: 293.66, F4: 349.23, G4: 392.0, Ab4: 415.3, A4: 440.0, C5: 523.25, D5: 587.33, F5: 698.46 };
+// Kleine, eigene Blues-Melodie: [Ton, Dauer in Beats]
+const MELODY = [
+  ['D4', .5], ['F4', .5], ['G4', .5], ['Ab4', .5], ['A4', 1.5], [null, .5],
+  ['C5', .5], ['A4', .5], ['G4', 1], ['F4', .5], ['D4', 1.5], [null, .5],
+  ['A4', .5], ['C5', .5], ['D5', 1], ['F5', .5], ['D5', .5], ['C5', .5], ['A4', 1], [null, .5],
+  ['G4', .5], ['Ab4', .5], ['G4', .5], ['F4', .5], ['D4', 2.5],
+];
+function playSynthSax(onEnd) {
+  audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+  audioCtx.resume();
+  const beat = 0.42;
+  let t = audioCtx.currentTime + 0.1;
+  const master = audioCtx.createGain(); master.gain.value = 0.22; master.connect(audioCtx.destination);
+  synthNodes = [master];
+  MELODY.forEach(([note, dur]) => {
+    const len = dur * beat;
+    if (note) {
+      const osc = audioCtx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = N[note];
+      const vib = audioCtx.createOscillator(); vib.frequency.value = 5.2;
+      const vibGain = audioCtx.createGain(); vibGain.gain.value = 3.5;
+      vib.connect(vibGain).connect(osc.frequency);
+      const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.Q.value = 6;
+      filter.frequency.setValueAtTime(900, t); filter.frequency.linearRampToValueAtTime(2200, t + 0.08);
+      filter.frequency.linearRampToValueAtTime(1300, t + len);
+      const env = audioCtx.createGain();
+      env.gain.setValueAtTime(0, t); env.gain.linearRampToValueAtTime(1, t + 0.05);
+      env.gain.setValueAtTime(0.85, t + len * 0.7); env.gain.linearRampToValueAtTime(0, t + len * 0.98);
+      osc.connect(filter).connect(env).connect(master);
+      osc.start(t); vib.start(t); osc.stop(t + len); vib.stop(t + len);
+      synthNodes.push(osc, vib);
+    }
+    t += len;
+  });
+  const total = (t - audioCtx.currentTime) * 1000;
+  synthTimer = setTimeout(onEnd, total + 200);
+}
+function stopSynth() {
+  clearTimeout(synthTimer);
+  synthNodes.forEach(n => { try { n.stop ? n.stop() : n.disconnect(); } catch (_) {} });
+  synthNodes = [];
+}
+
+const saxBtn = document.getElementById('saxBtn');
+const saxLabel = document.getElementById('saxBtnLabel');
+const saxAudio = document.getElementById('saxAudio');
+const saxHint = document.getElementById('saxHint');
+let saxPlaying = false, noteInterval = null, usingSynth = false;
+
+function startShow() {
+  saxPlaying = true;
+  saxBtn.classList.add('sax-playing');
+  saxLabel.textContent = 'Werner spielt … (Stopp)';
+  noteInterval = setInterval(spawnNote, 260);
+}
+function stopShow() {
+  saxPlaying = false;
+  saxBtn.classList.remove('sax-playing');
+  saxLabel.textContent = 'Ibiza Sunset Saxophon-Ständchen';
+  clearInterval(noteInterval);
+}
+function playSax() {
+  if (saxPlaying) {
+    saxAudio.pause(); saxAudio.currentTime = 0; stopSynth(); stopShow(); return;
+  }
+  startShow();
+  saxAudio.currentTime = 0;
+  saxAudio.play().then(() => {
+    usingSynth = false;
+    saxHint.textContent = 'Live von Werner 🎷';
+  }).catch(() => {
+    // Keine MP3 gefunden → synthetische Jazz-Melodie
+    usingSynth = true;
+    saxHint.textContent = 'Demo-Melodie – lege „werner-saxophon.mp3“ ab für Werners echtes Ständchen.';
+    playSynthSax(stopShow);
+  });
+}
+saxAudio.addEventListener('ended', stopShow);
+saxBtn.addEventListener('click', playSax);
+
+/* =====================================================================
+   WERNER – Support-Charakter mit Sprüchen
+   ===================================================================== */
+const WERNER_LINES = [
+  'Psst … scroll mal runter zu meiner Jazz-Lounge! 🌅',
+  'Hast du schon mein Ständchen gehört? 🎷',
+  'Brunis Gedichte sind besser als jedes Saxophon-Solo. Fast. 😄',
+  'Mein Lieblingslied? Natürlich das für Bruni! 🎶',
+  '¡Feliz cumpleaños, mi amor! ❤️',
+  'Probier mal den Reim-O-Mat mit „Saxophon“! 🎶',
+];
+const bubble = document.getElementById('opaBubble');
+let bubbleTimer = null, lineIdx = 0;
+function opaSays(text) {
+  bubble.textContent = text;
+  bubble.classList.remove('hidden-bubble');
+  clearTimeout(bubbleTimer);
+  bubbleTimer = setTimeout(() => bubble.classList.add('hidden-bubble'), 4500);
+}
+document.getElementById('opaBuddy').addEventListener('click', () => {
+  opaSays(WERNER_LINES[lineIdx++ % WERNER_LINES.length]);
+  for (let i = 0; i < 5; i++) setTimeout(() => {
+    const n = document.createElement('span');
+    n.className = 'flying-note'; n.textContent = pick(NOTE_CHARS);
+    n.style.position = 'fixed'; n.style.left = (30 + Math.random() * 30) + 'px'; n.style.bottom = '80px';
+    n.style.setProperty('--dx', (Math.random() * 120) + 'px'); n.style.setProperty('--rot', (Math.random() * 60 - 30) + 'deg');
+    document.body.appendChild(n); setTimeout(() => n.remove(), 2700);
+  }, i * 120);
+});
+setTimeout(() => opaSays('Hallo! Ich bin Werner – ich begleite dich durch die Party. 🎷'), 3500);
+</script>
+</body>
+</html>
