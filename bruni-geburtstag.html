@@ -589,7 +589,7 @@ function runRhyme() {
       <div class="mt-3 flex flex-wrap gap-2">${rhymes.slice(0, 10).map(x => `<span class="text-xs font-bold bg-turquoise/20 text-medblue rounded-full px-3 py-1">${x}</span>`).join('')}</div>`;
   } else {
     out.innerHTML = `<p class="poem text-deepsea">Auf „${escapeHTML(word)}“ reimt sich – oh weh – nicht viel,\ndoch für Bruni ist selbst das nur ein Kinderspiel! ✨</p>
-      <p class="text-xs mt-3 text-deepsea/60">Tipp: Probier mal Sonne, Katze, Garten, Herz oder Saxophon.</p>`;
+      <p class="text-xs mt-3 text-deepsea/60">Tipp: Probier mal Sonne, Hit, Garten, Herz oder Saxophon.</p>`;
   }
 }
 document.getElementById('rhymeBtn').addEventListener('click', runRhyme);
@@ -748,7 +748,6 @@ function playSax() {
   }).catch(() => {
     // Keine MP3 gefunden → synthetische Jazz-Melodie
     usingSynth = true;
-    saxHint.textContent = 'Demo-Melodie – lege „werner-saxophon.mp3“ ab für Werners echtes Ständchen.';
     playSynthSax(stopShow);
   });
 }
