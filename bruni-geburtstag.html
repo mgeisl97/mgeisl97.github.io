@@ -232,12 +232,12 @@
         <!-- Werner-Porträt -->
         <div class="relative mx-auto w-full max-w-sm">
           <div class="frame-ibiza rounded-2xl overflow-hidden shadow-2xl bg-sand aspect-[2/3] relative">
-            <!-- 📷 WERNER-BILD: Lege die Datei "werner-saxophon.png" in denselben Ordner wie diese HTML-Datei -->
-            <img id="opaImg" src="werner-saxophon.png" alt="Werner spielt Saxophon am Strand" class="w-full h-full object-cover" />
+            <!-- 📷 WERNER-BILD: Lege die Datei "werner-saxophon.jpeg" in denselben Ordner wie diese HTML-Datei -->
+            <img id="opaImg" src="werner-saxophon.jpeg" alt="Werner spielt Saxophon am Strand" class="w-full h-full object-cover" />
             <div id="opaFallback" class="hidden absolute inset-0 flex-col items-center justify-center bg-gradient-to-b from-peach via-sun/70 to-turquoise text-deepsea">
               <span class="text-8xl">🎷</span>
               <span class="font-script text-3xl mt-3">Werner in Concert</span>
-              <span class="text-xs mt-2 px-6 text-center opacity-70">(Bild „werner-saxophon.png“ neben die HTML-Datei legen)</span>
+              <span class="text-xs mt-2 px-6 text-center opacity-70">(Bild „werner-saxophon.jpeg“ neben die HTML-Datei legen)</span>
             </div>
           </div>
           <div id="noteStage" class="absolute inset-0 pointer-events-none"></div>
@@ -649,8 +649,8 @@ opaImg.addEventListener('error', () => {
 });
 // Werner-Bild auch im Begleiter-Button verwenden, wenn vorhanden
 const buddyTest = new Image();
-buddyTest.onload = () => { document.getElementById('opaBuddy').innerHTML = '<img src="werner-saxophon.png" alt="Werner" class="w-full h-full object-cover object-top">'; };
-buddyTest.src = 'werner-saxophon.png';
+buddyTest.onload = () => { document.getElementById('opaBuddy').innerHTML = '<img src="werner-saxophon.jpeg" alt="Werner" class="w-full h-full object-cover object-top">'; };
+buddyTest.src = 'werner-saxophon.jpeg';
 
 const noteStage = document.getElementById('noteStage');
 const NOTE_CHARS = ['♪', '♫', '♬', '♩', '🎶'];
