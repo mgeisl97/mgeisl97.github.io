@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Red Pill – Welcome to the 30s</title>
+<meta name="theme-color" content="#4D0011">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Archivo:wght@400;500;700;800;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Palette: wine (Hauptfarbe), red, blush, babyblue (Akzent) */
+    --wine:#4D0011;
+    --wine-deep:#36000b;
+    --red:#902124;
+    --blush:#C2858C;
+    --blue:#8EB9FF;
+    --cream:#F6EEE3;
+    --paper:#EFE3D0;
+
+    --fat:'Abril Fatface', 'Didot', Georgia, serif;
+    --grot:'Archivo', 'Helvetica Neue', Arial, sans-serif;
+    --hand:'Caveat', 'Comic Sans MS', cursive;
+
+    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .9 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --paper-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .2 0 0 0 0 .12 0 0 0 .13 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--grot);color:var(--cream);line-height:1.5;
+    background:var(--grain), var(--wine);
+    min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  body.locked{overflow:hidden}
+  ::selection{background:var(--blue);color:var(--wine)}
+
+  /* ---------- Rand-Skizzen ---------- */
+  .doodles{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .dd{position:absolute;opacity:.22}
+  .dd svg{width:100%;height:auto;display:block;overflow:visible}
+  .dd.d1{top:14%;left:-14px;width:64px;transform:rotate(-14deg);animation:sway 8s ease-in-out infinite}
+  .dd.d2{top:46%;right:-10px;width:58px;transform:rotate(12deg);animation:sway 9s ease-in-out infinite reverse}
+  .dd.d3{bottom:10%;left:-18px;width:90px;animation:turn 40s linear infinite}
+  .dd.d4{top:30%;right:-8px;width:46px;animation:sway 7s ease-in-out infinite}
+  @keyframes sway{50%{transform:rotate(4deg) translateY(-10px)}}
+  @keyframes turn{to{transform:rotate(360deg)}}
+  @media (min-width:900px){.dd{opacity:.3}.dd.d1{left:7vw;width:90px}.dd.d2{right:8vw;width:80px}.dd.d3{left:9vw;width:130px}.dd.d4{right:14vw;width:64px}}
+
+  #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
+
+  /* ---------- Intro: Platte auflegen ---------- */
+  #intro{
+    position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+    padding:30px;text-align:center;background:var(--grain), radial-gradient(circle at 50% 45%, #6a0619 0%, var(--wine) 45%, var(--wine-deep) 100%);
+    transition:opacity 1s ease, visibility 1s;
+  }
+  #intro.hide{opacity:0;visibility:hidden}
+  #intro .over{font-family:var(--grot);font-weight:700;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--blue)}
+  #intro h2{font-family:var(--grot);font-weight:900;font-size:clamp(2.2rem,11vw,3.4rem);line-height:.92;letter-spacing:-.045em;text-transform:lowercase}
+  #intro h2 span{display:block;font-family:var(--hand);font-weight:700;font-size:.62em;letter-spacing:0;color:var(--blush);transform:rotate(-4deg);margin-top:6px}
+  .record-btn{background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;position:relative}
+  .record{width:min(64vw,250px);height:auto;display:block;animation:spin 6s linear infinite;filter:drop-shadow(0 22px 40px rgba(0,0,0,.55))}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #intro .hint{font-family:var(--hand);font-size:1.45rem;color:var(--blue);animation:breathe 2.2s ease-in-out infinite}
+  @keyframes breathe{50%{opacity:.4}}
+  #intro .silent{font-family:var(--grot);font-size:.72rem;letter-spacing:.12em;color:var(--blush);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+
+  /* ---------- Mini-Plattenspieler ---------- */
+  .player{
+    position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:40;
+    display:flex;align-items:center;gap:9px;padding:5px 14px 5px 5px;border-radius:999px;cursor:pointer;border:none;
+    background:var(--blue);color:var(--wine);
+    font-family:var(--grot);font-weight:800;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+    box-shadow:0 8px 24px rgba(0,0,0,.35);
+  }
+  .player svg{width:36px;height:36px;animation:spin 3s linear infinite;animation-play-state:paused}
+  .player.playing svg{animation-play-state:running}
+  .eq{display:flex;gap:2px;align-items:flex-end;height:13px}
+  .eq i{width:2.5px;height:4px;background:var(--wine);border-radius:1px}
+  .player.playing .eq i{animation:eq 1s ease-in-out infinite}
+  .player.playing .eq i:nth-child(2){animation-delay:-.3s}.player.playing .eq i:nth-child(3){animation-delay:-.6s}.player.playing .eq i:nth-child(4){animation-delay:-.15s}
+  @keyframes eq{50%{height:13px}}
+
+  /* ---------- Layout ---------- */
+  main{position:relative;z-index:1;max-width:600px;margin:0 auto;padding:0 16px 30px}
+
+  /* ---------- Hero als Poster ---------- */
+  .hero{position:relative;padding:calc(76px + env(safe-area-inset-top)) 4px 0}
+  .poster-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .brand{font-family:var(--grot);font-weight:800;font-size:1rem;letter-spacing:.04em}
+  .brand b{color:var(--blue)}
+  .script{font-family:var(--hand);font-weight:700;font-size:1.6rem;line-height:1;color:var(--blush);transform:rotate(-6deg);text-align:right}
+
+  .hero-art{position:relative;margin:18px auto 0;width:100%;max-width:440px}
+  .hero-art svg{width:100%;height:auto;display:block;overflow:visible}
+  .hero-art .slice{animation:bob 7s ease-in-out infinite;transform-origin:50% 60%}
+  @keyframes bob{50%{transform:rotate(-2deg) translateY(-6px)}}
+  .hero-title{
+    position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;
+    font-family:var(--grot);font-weight:900;font-size:clamp(2.5rem,12.5vw,4.3rem);line-height:.88;letter-spacing:-.05em;
+    color:#fff;text-shadow:0 2px 0 rgba(77,0,17,.25),0 10px 30px rgba(77,0,17,.45);
+  }
+  .hero-title em{font-style:normal;color:var(--blue);background:var(--wine);padding:0 .14em .04em;border-radius:.1em;text-shadow:none;display:inline-block;transform:rotate(-2deg);margin:.04em 0}
+
+  .poster-row{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-top:4px}
+  .fat30{font-family:var(--fat);font-size:clamp(5.5rem,30vw,9rem);line-height:.8;color:var(--blush)}
+  .amp{font-family:var(--grot);font-weight:900;font-size:clamp(2.3rem,11vw,3.6rem);line-height:.9;letter-spacing:-.05em;text-align:right}
+  .amp small{display:block;font-family:var(--hand);font-weight:700;font-size:.5em;letter-spacing:0;color:var(--blue);transform:rotate(-4deg);margin-bottom:2px}
+
+  .subtitle{margin-top:22px;font-size:clamp(1.02rem,4.3vw,1.18rem);line-height:1.5;max-width:30ch;color:#f1dfe0}
+  .subtitle strong{font-weight:800;color:#fff}
+
+  .poster-foot{display:flex;justify-content:space-between;gap:8px;margin-top:26px;padding-top:12px;border-top:2px solid var(--cream);
+    font-family:var(--grot);font-weight:800;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+  .poster-foot span:nth-child(2){color:var(--blue)}
+
+  /* ---------- Laufbänder ---------- */
+  .ticker{
+    position:relative;z-index:1;overflow:hidden;white-space:nowrap;margin:34px -16px 0;padding:11px 0;
+    background:var(--blue);color:var(--wine);transform:rotate(-2deg);
+  }
+  .ticker.alt{background:var(--blush);color:var(--wine);transform:rotate(1.5deg);margin-top:-6px}
+  .ticker .track{display:inline-block;animation:marquee 24s linear infinite}
+  .ticker.alt .track{animation-direction:reverse;animation-duration:30s}
+  .ticker span{font-family:var(--grot);font-weight:900;font-size:1.05rem;letter-spacing:-.02em;text-transform:lowercase;padding:0 12px}
+  .ticker.alt span{font-family:var(--fat);font-size:1.12rem;letter-spacing:0;text-transform:none}
+  @keyframes marquee{to{transform:translateX(-50%)}}
+
+  /* ---------- Papier-Karte (Geschenk) ---------- */
+  .paper{
+    position:relative;margin-top:40px;padding:22px 20px 24px;border-radius:4px;color:var(--wine);
+    background:var(--paper-grain), var(--cream);
+    box-shadow:0 26px 50px -18px rgba(0,0,0,.6);
+  }
+  .paper .top{display:flex;justify-content:space-between;align-items:flex-start;font-weight:800;font-size:.8rem;letter-spacing:.05em}
+  .paper .top .hand{font-family:var(--hand);font-weight:700;font-size:1.5rem;line-height:1;color:var(--red);transform:rotate(-5deg)}
+  .seal{
+    position:absolute;top:-22px;right:18px;width:76px;height:76px;border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:var(--blue);color:var(--wine);transform:rotate(12deg);
+    font-family:var(--fat);font-size:1.6rem;line-height:.9;
+    box-shadow:0 8px 18px rgba(0,0,0,.3);
+  }
+  .seal::before{content:"";position:absolute;inset:5px;border:1.5px dashed rgba(77,0,17,.55);border-radius:50%}
+  .seal small{font-family:var(--grot);font-weight:800;font-size:.45rem;letter-spacing:.2em;margin-top:3px}
+
+  .gift-art{width:78%;max-width:300px;margin:8px auto -8px}
+  .gift-art svg{width:100%;height:auto;display:block;overflow:visible}
+  .gift-title{font-family:var(--grot);font-weight:900;font-size:clamp(3rem,15vw,4.6rem);line-height:.84;letter-spacing:-.055em;text-transform:lowercase}
+  .gift-title .r{display:block;text-align:right;color:var(--red)}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin-top:20px;font-weight:700;font-size:.84rem;line-height:1.3;text-transform:uppercase;letter-spacing:.02em}
+  .meta span:nth-child(even){text-align:right}
+
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0 18px}
+  .option{padding:14px 12px;border:2px solid var(--wine);border-radius:4px;text-align:left}
+  .option.blue{background:var(--blue);border-color:var(--blue)}
+  .option .k{font-weight:800;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+  .option .name{font-family:var(--fat);font-size:1.35rem;line-height:1.05;margin-top:4px}
+
+  .message{font-size:clamp(1rem,4.2vw,1.08rem);line-height:1.6;color:#3d0a14}
+
+  .btn{
+    margin-top:22px;width:100%;padding:18px 22px;border:none;border-radius:999px;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--grot);font-weight:900;font-size:1.05rem;letter-spacing:-.01em;text-transform:lowercase;
+    background:var(--wine);color:var(--cream);
+    box-shadow:0 10px 24px -8px rgba(77,0,17,.6);
+    transition:transform .15s ease, background .2s;-webkit-tap-highlight-color:transparent;
+  }
+  .btn .arrow{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:var(--wine);font-size:1.1rem}
+  .btn:active{transform:scale(.97)}
+  @media (hover:hover){.btn:hover{background:var(--red)}}
+
+  .result{
+    display:none;margin-top:16px;padding:16px;border-radius:4px;background:var(--blue);color:var(--wine);
+    font-weight:600;line-height:1.45;animation:pop .55s cubic-bezier(.2,1.5,.4,1);
+  }
+  .result strong{font-family:var(--fat);font-weight:400;font-size:1.2em}
+  .result.show{display:block}
+  @keyframes pop{from{transform:scale(.8) rotate(-2deg);opacity:0}to{transform:none;opacity:1}}
+
+  /* ---------- Editorial-Sektionen ---------- */
+  .section{position:relative;margin-top:56px}
+  .kicker{display:flex;align-items:center;gap:10px;font-weight:800;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--blue)}
+  .kicker::after{content:"";flex:1;height:2px;background:var(--blue);opacity:.5}
+  .section h2{font-family:var(--grot);font-weight:900;font-size:clamp(2.4rem,12vw,3.8rem);line-height:.88;letter-spacing:-.05em;text-transform:lowercase;margin:16px 0 18px}
+  .section h2 .fat{font-family:var(--fat);font-weight:400;letter-spacing:-.01em;color:var(--blush);text-transform:none}
+  .notes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .notes span{padding:6px 12px;border-radius:999px;border:1.5px solid var(--blush);font-weight:700;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--blush)}
+  .notes span:first-child{background:var(--blue);border-color:var(--blue);color:var(--wine)}
+  .body{font-size:clamp(1.02rem,4.3vw,1.12rem);line-height:1.62;color:#f1dfe0}
+  .pull{
+    position:relative;margin-top:28px;padding:22px 20px 22px;border-radius:4px;background:var(--red);
+    font-family:var(--fat);font-size:clamp(1.45rem,6.4vw,1.95rem);line-height:1.18;color:var(--cream);
+  }
+  .pull::before{content:"“";position:absolute;top:-38px;left:12px;font-size:5rem;line-height:1;color:var(--blue)}
+  .pull small{display:block;margin-top:12px;font-family:var(--hand);font-size:1.25rem;color:var(--blue)}
+
+  /* Inklusive als nummerierte Karte */
+  .menu{list-style:none;counter-reset:n;border-top:2px solid var(--cream)}
+  .menu li{counter-increment:n;display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(246,238,227,.25)}
+  .menu li::before{content:counter(n,decimal-leading-zero);font-family:var(--fat);font-size:1.7rem;line-height:1;color:var(--blue)}
+  .menu strong{display:block;font-weight:900;font-size:1.12rem;letter-spacing:-.02em;text-transform:lowercase;color:#fff}
+  .menu p{font-size:.98rem;line-height:1.5;color:#e9cfd2;margin-top:2px}
+
+  /* Fazit-Ticket */
+  .ticket{
+    position:relative;margin-top:52px;display:grid;grid-template-columns:1fr auto;border-radius:4px;overflow:hidden;
+    background:var(--blue);color:var(--wine);box-shadow:0 26px 50px -18px rgba(0,0,0,.6);
+  }
+  .ticket .main{padding:22px 18px 22px 20px}
+  .ticket .admit{font-weight:900;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase}
+  .ticket p{margin-top:10px;font-family:var(--fat);font-size:clamp(1.25rem,5.4vw,1.55rem);line-height:1.2}
+  .ticket .stub{
+    display:flex;align-items:center;justify-content:center;padding:0 14px;border-left:2px dashed rgba(77,0,17,.55);
+    writing-mode:vertical-rl;transform:rotate(180deg);font-weight:900;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+    background:var(--blush);
+  }
+  .ticket .notch{position:absolute;right:calc(var(--stub,44px) - 11px);width:22px;height:22px;border-radius:50%;background:var(--wine)}
+  .ticket .notch.t{top:-11px}.ticket .notch.b{bottom:-11px}
+
+  /* ---------- Auswahl-Popup ---------- */
+  .modal{
+    position:fixed;inset:0;z-index:55;display:flex;align-items:flex-end;justify-content:center;
+    background:rgba(30,0,7,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    opacity:0;visibility:hidden;transition:opacity .3s, visibility .3s;
+  }
+  .modal.open{opacity:1;visibility:visible}
+  .sheet{
+    width:100%;max-width:600px;padding:24px 18px calc(22px + env(safe-area-inset-bottom));
+    border-radius:22px 22px 0 0;color:var(--wine);background:var(--paper-grain), var(--cream);
+    transform:translateY(100%);transition:transform .5s cubic-bezier(.2,1,.3,1);
+  }
+  .modal.open .sheet{transform:translateY(0)}
+  @media (min-width:640px){.modal{align-items:center}.sheet{border-radius:10px}}
+  .sheet .grab{width:44px;height:5px;border-radius:3px;background:rgba(77,0,17,.25);margin:0 auto 16px}
+  .sheet h2{font-family:var(--grot);font-weight:900;font-size:2rem;line-height:.95;letter-spacing:-.045em;text-transform:lowercase}
+  .sheet p{font-family:var(--hand);font-size:1.35rem;color:var(--red);margin:4px 0 18px}
+  .choices{display:grid;gap:10px}
+  .choice{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;cursor:pointer;text-align:left;border-radius:6px;
+    background:var(--wine);color:var(--cream);border:none;font-family:var(--grot);
+    transition:transform .15s, background .2s;-webkit-tap-highlight-color:transparent;
+  }
+  .choice.b{background:var(--blue);color:var(--wine)}
+  .choice:active{transform:scale(.98)}
+  .choice strong{display:block;font-family:var(--fat);font-weight:400;font-size:1.45rem;line-height:1.05}
+  .choice span{font-weight:700;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;opacity:.8}
+  .choice .go{font-size:1.4rem}
+  .later{display:block;margin:14px auto 0;background:none;border:none;color:var(--wine);opacity:.7;font-family:var(--hand);font-size:1.3rem;cursor:pointer;padding:6px}
+
+  /* ---------- Footer ---------- */
+  footer{position:relative;z-index:1;max-width:600px;margin:60px auto 0;padding:0 16px calc(40px + env(safe-area-inset-bottom))}
+  footer .big{font-family:var(--grot);font-weight:900;font-size:clamp(2.6rem,13vw,4.2rem);line-height:.86;letter-spacing:-.055em;text-transform:lowercase}
+  footer .big .b{color:var(--blue)}
+  footer .wish{margin-top:14px;font-family:var(--fat);font-size:clamp(1.3rem,5.6vw,1.6rem);color:var(--blush)}
+  footer .row{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:12px;border-top:2px solid var(--cream);font-weight:800;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+  .back{color:var(--blue);text-decoration:none}
+
+  /* Einblenden */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity 1s ease, transform 1s cubic-bezier(.2,1,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body class="locked">
+
+<!-- Gemeinsame SVG-Filter für den handgezeichneten Kreide-Look -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" seed="7" result="g"/>
+      <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -.55 1.18" result="ga"/>
+      <feComposite in="d" in2="ga" operator="in"/>
+    </filter>
+    <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="2" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- Rand-Skizzen -->
+<div class="doodles" aria-hidden="true">
+  <div class="dd d1"><svg viewBox="0 0 40 80" fill="none" stroke="#8EB9FF" stroke-width="2.4" stroke-linecap="round" filter="url(#wobble)"><path d="M8 4 H32 C33 22 28 34 20 36 C12 34 7 22 8 4Z"/><path d="M10 17 H30"/><path d="M20 36 V70 M10 74 H30"/></svg></div>
+  <div class="dd d2"><svg viewBox="0 0 50 60" fill="none" stroke="#C2858C" stroke-width="2.6" stroke-linecap="round" filter="url(#wobble)"><path d="M16 46 V10 L42 4 V40"/><path d="M16 14 L42 8" stroke-width="4"/><ellipse cx="10" cy="47" rx="7" ry="5" fill="#C2858C"/><ellipse cx="36" cy="41" rx="7" ry="5" fill="#C2858C"/></svg></div>
+  <div class="dd d3"><svg viewBox="0 0 100 100" fill="none" stroke="#8EB9FF" filter="url(#wobble)"><circle cx="50" cy="50" r="46" stroke-width="2.4"/><circle cx="50" cy="50" r="36" stroke-width="1"/><circle cx="50" cy="50" r="27" stroke-width="1"/><circle cx="50" cy="50" r="14" stroke-width="2.4"/><circle cx="50" cy="50" r="2.5" fill="#8EB9FF"/></svg></div>
+  <div class="dd d4"><svg viewBox="0 0 40 90" fill="none" stroke="#C2858C" stroke-width="2" stroke-linecap="round" filter="url(#wobble)"><path d="M20 88 V10"/><path d="M20 16 C13 14 12 7 13 4 C18 5 20 10 20 16Z M20 16 C27 14 28 7 27 4 C22 5 20 10 20 16Z"/><path d="M20 30 C13 28 12 21 13 18 C18 19 20 24 20 30Z M20 30 C27 28 28 21 27 18 C22 19 20 24 20 30Z"/><path d="M20 44 C13 42 12 35 13 32 C18 33 20 38 20 44Z M20 44 C27 42 28 35 27 32 C22 33 20 38 20 44Z"/></svg></div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<!-- Jazz-Musik: unsichtbarer YouTube-Player (Video-ID im Skript: YT_ID) -->
+<div style="position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden" aria-hidden="true">
+  <div id="yt"></div>
+</div>
+
+<!-- Intro: Platte auflegen startet Seite und Musik -->
+<div id="intro">
+  <div class="over">Red Pill · Side A</div>
+  <h2>welcome<br>to the 30s<span>leg die Platte auf …</span></h2>
+  <button class="record-btn" id="startBtn" aria-label="Platte auflegen und Seite öffnen">
+    <svg class="record" viewBox="0 0 200 200" aria-hidden="true">
+      <defs>
+        <radialGradient id="vin" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#1b1013"/><stop offset=".95" stop-color="#0c0507"/><stop offset="1" stop-color="#241417"/></radialGradient>
+        <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1"><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".16"/><stop offset=".65" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      </defs>
+      <circle cx="100" cy="100" r="98" fill="url(#vin)"/>
+      <g fill="none" stroke="#2c1d21" stroke-width=".6">
+        <circle cx="100" cy="100" r="90"/><circle cx="100" cy="100" r="84"/><circle cx="100" cy="100" r="78"/><circle cx="100" cy="100" r="72"/>
+        <circle cx="100" cy="100" r="66"/><circle cx="100" cy="100" r="60"/><circle cx="100" cy="100" r="54"/><circle cx="100" cy="100" r="48"/>
+      </g>
+      <circle cx="100" cy="100" r="98" fill="url(#sheen)"/>
+      <circle cx="100" cy="100" r="36" fill="#8EB9FF"/>
+      <text x="100" y="96" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-weight="900" font-size="13" letter-spacing="-.5" fill="#4D0011">red pill</text>
+      <text x="100" y="110" text-anchor="middle" font-family="Abril Fatface, Georgia, serif" font-size="11" fill="#902124">Nº 30</text>
+      <circle cx="100" cy="100" r="3" fill="#4D0011"/>
+    </svg>
+  </button>
+  <div class="hint">tipp auf die Platte ↑</div>
+  <button class="silent" id="silentBtn">ohne Musik ansehen</button>
+</div>
+
+<!-- Mini-Plattenspieler -->
+<button class="player" id="player" aria-label="Musik an/aus">
+  <svg viewBox="0 0 40 40" aria-hidden="true">
+    <circle cx="20" cy="20" r="19" fill="#120508"/>
+    <circle cx="20" cy="20" r="15" fill="none" stroke="#2e1a1f" stroke-width=".6"/>
+    <circle cx="20" cy="20" r="11" fill="none" stroke="#2e1a1f" stroke-width=".6"/>
+    <circle cx="20" cy="20" r="7" fill="#4D0011"/>
+    <circle cx="20" cy="20" r="1.4" fill="#8EB9FF"/>
+    <path d="M8 12 A14 14 0 0 1 14 7" stroke="#fff" stroke-opacity=".2" stroke-width="2" fill="none"/>
+  </svg>
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  <span id="playerLabel">Pause</span>
+</button>
+
+<main>
+  <!-- Hero-Poster -->
+  <header class="hero reveal">
+    <div class="poster-top">
+      <div class="brand">RED PILL<b>.</b></div>
+      <div class="script">welcome<br>to the 30s</div>
+    </div>
+
+    <div class="hero-art">
+      <svg viewBox="0 0 320 270" aria-hidden="true">
+        <g class="slice">
+          <!-- Brotscheibe im Kreide-Stil -->
+          <g filter="url(#rough)">
+            <path d="M70 36 C120 4 214 6 256 42 C292 72 290 120 262 140 L258 232 C258 248 248 256 232 256 L86 256 C70 256 60 248 60 232 L56 140 C26 118 26 66 70 36Z" fill="#902124"/>
+            <path d="M80 52 C124 26 206 28 240 56 C268 80 266 116 244 130 L240 226 C240 236 234 240 224 240 L94 240 C84 240 78 236 78 226 L74 130 C50 114 50 76 80 52Z" fill="#C2858C"/>
+            <g fill="#a85862">
+              <ellipse cx="112" cy="88" rx="9" ry="6"/><ellipse cx="196" cy="76" rx="7" ry="5"/><ellipse cx="216" cy="118" rx="10" ry="7"/>
+              <ellipse cx="104" cy="160" rx="7" ry="9"/><ellipse cx="208" cy="200" rx="12" ry="8"/><ellipse cx="128" cy="214" rx="6" ry="5"/>
+              <ellipse cx="160" cy="70" rx="5" ry="4"/><ellipse cx="226" cy="168" rx="6" ry="5"/><ellipse cx="96" cy="118" rx="5" ry="4"/>
+            </g>
+          </g>
+          <!-- Butter -->
+          <g filter="url(#wobble)">
+            <path d="M130 104 C150 92 196 96 204 116 C210 132 192 146 168 146 C142 148 118 134 130 104Z" fill="#F6EEE3"/>
+            <path d="M148 142 C146 156 150 164 156 166 M182 144 C184 154 182 160 178 162" stroke="#F6EEE3" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M144 110 C154 104 168 104 176 108" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8"/>
+          </g>
+        </g>
+        <!-- Weinglas-Skizze in Babyblau -->
+        <g filter="url(#wobble)" transform="translate(268 150) rotate(10)" fill="none" stroke="#8EB9FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M0 0 H34 C36 26 28 44 17 46 C6 44 -2 26 0 0Z"/>
+          <path d="M2 18 H32 C30 34 24 42 17 43 C10 42 4 34 2 18Z" fill="#4D0011" stroke="none"/>
+          <path d="M17 46 V86 M4 90 H30"/>
+        </g>
+        <!-- Noten -->
+        <g filter="url(#wobble)" transform="translate(14 28) rotate(-12)" stroke="#8EB9FF" stroke-width="3" stroke-linecap="round" fill="none">
+          <path d="M10 34 V6 L30 2 V30"/><ellipse cx="6" cy="35" rx="6" ry="4" fill="#8EB9FF"/><ellipse cx="26" cy="31" rx="6" ry="4" fill="#8EB9FF"/>
+        </g>
+      </svg>
+      <h1 class="hero-title">du hast die<br><em>red pill</em><br>gewählt.</h1>
+    </div>
+
+    <div class="poster-row">
+      <div class="fat30">30</div>
+      <div class="amp"><small>genuss, handwerk</small>&amp; zeit</div>
+    </div>
+
+    <p class="subtitle">Willkommen in den 30ern – <strong>wo echter Genuss, Handwerk und Zeit regieren.</strong></p>
+
+    <div class="poster-foot"><span>Brot</span><span>Wein</span><span>Jazz</span></div>
+  </header>
+
+  <div class="ticker reveal" aria-hidden="true"><div class="track">
+    <span>sauerteig ✱</span><span>kruste &amp; krume ✱</span><span>maxvorstadt ✱</span><span>gut gereift ✱</span><span>slow living ✱</span><span>welcome to the 30s ✱</span>
+    <span>sauerteig ✱</span><span>kruste &amp; krume ✱</span><span>maxvorstadt ✱</span><span>gut gereift ✱</span><span>slow living ✱</span><span>welcome to the 30s ✱</span>
+  </div></div>
+  <div class="ticker alt reveal" aria-hidden="true"><div class="track">
+    <span>Genuss —</span><span>Handwerk —</span><span>Zeit —</span><span>zu zweit —</span><span>Prost —</span><span>Jazz &amp; Wein —</span>
+    <span>Genuss —</span><span>Handwerk —</span><span>Zeit —</span><span>zu zweit —</span><span>Prost —</span><span>Jazz &amp; Wein —</span>
+  </div></div>
+
+  <!-- Hauptgeschenk als Papier-Poster -->
+  <section class="paper reveal">
+    <div class="seal" aria-hidden="true">30<small>GEREIFT</small></div>
+    <div class="top"><span>DEIN GESCHENK.</span></div>
+
+    <div class="gift-art" aria-hidden="true">
+      <svg viewBox="0 0 300 150">
+        <!-- Sauerteiglaib, rot gekreidet -->
+        <g filter="url(#rough)">
+          <path d="M20 104 C18 54 80 22 150 22 C220 22 282 54 280 104 C279 132 230 142 150 142 C70 142 21 132 20 104Z" fill="#902124"/>
+        </g>
+        <g filter="url(#wobble)" fill="none" stroke="#F6EEE3" stroke-linecap="round">
+          <path d="M70 70 C104 40 170 36 214 52" stroke-width="7"/>
+          <path d="M88 98 C124 74 190 72 236 86" stroke-width="5"/>
+          <path d="M60 120 C110 132 196 132 246 120" stroke-width="2.5" opacity=".55"/>
+        </g>
+        <g filter="url(#wobble)">
+          <path d="M248 18 L256 6 M262 24 L276 18 M240 10 L238 -2" stroke="#4D0011" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="gift-title">brot-<br>tasting<span class="r">&amp; wein</span></div>
+
+    <div class="meta">
+      <span>Maxvorstadt</span><span>München</span>
+      <span>Termin flexibel</span><span>zu zweit</span>
+    </div>
+
+    <div class="options">
+      <div class="option blue"><div class="k">Option A</div><div class="name">Wein&shy;begleitung</div><div class="k" style="margin-top:4px">Pachmayr Laden</div></div>
+      <div class="option"><div class="k">Option B</div><div class="name">Alkohol&shy;frei</div><div class="k" style="margin-top:4px">Feine Alternativen</div></div>
+    </div>
+
+    <p class="message">Bei diesem exklusiven Brot-Tasting in der Münchener Maxvorstadt entdecken wir die handwerkliche Brotkultur der Stadt. Im Mittelpunkt stehen ausgewählte Sauerteigkreationen lokaler Handwerksbäckereien, die wir gemeinsam verkosten, vergleichen und mit fein abgestimmten Toppings sowie edlen Tropfen aus dem Pachmayr Laden kombinieren.</p>
+
+    <button class="btn" id="chooseBtn"><span id="chooseLabel">begleitung wählen</span><span class="arrow">→</span></button>
+    <div class="result" id="result" role="status"></div>
+  </section>
+
+  <!-- Sensorik -->
+  <section class="section reveal">
+    <div class="kicker">Das Sensorik-Erlebnis</div>
+    <h2>kruste, krume<br>&amp; <span class="fat">Charakter</span></h2>
+    <div class="notes" aria-hidden="true"><span>Kruste</span><span>Krume</span><span>Röstaromen</span><span>Säure</span></div>
+    <p class="body">Wir erkunden das Zusammenspiel von knuspriger Kruste, saftiger Krume, Röstaromen und Säure. Warum ein Brot perfekt mit Rohmilchbutter harmoniert, ein anderes mit Reifekäse oder feinem Honig. Und wie die passende Weinbegleitung oder hochwertige alkoholfreie Alternative einzelne Aromen aufblühen lässt.</p>
+    <blockquote class="pull">Jedes Brot erzählt seine eigene Geschichte – von alten Getreidesorten, langer Fermentation und echter Bäckerskunst.<small>– Kapitel 30</small></blockquote>
+  </section>
+
+  <!-- Inklusive -->
+  <section class="section reveal">
+    <div class="kicker">Inklusive</div>
+    <h2>die karte<br>des <span class="fat">Abends</span></h2>
+    <ol class="menu">
+      <li><div><strong>sauerteigbrote</strong><p>Auswahl außergewöhnlicher Sauerteigbrote führender Münchner Handwerksbäckereien</p></div></li>
+      <li><div><strong>toppings</strong><p>Raffinierte, feinsinnige Toppings zur Aromen-Harmonie</p></div></li>
+      <li><div><strong>weinbegleitung</strong><p>Exquisite Weinbegleitung (vom Pachmayr Laden) oder hochwertige alkoholfreie Alternativen</p></div></li>
+      <li><div><strong>geführte verkostung</strong><p>Tiefe Einblicke in Sensorik, Fermentation &amp; Handwerk</p></div></li>
+      <li><div><strong>zeit &amp; wasser</strong><p>Wasser inklusive sowie reichlich Zeit zum Genießen, Vergleichen und Entschleunigen</p></div></li>
+    </ol>
+  </section>
+
+  <!-- Fazit -->
+  <div class="ticket reveal">
+    <div class="main">
+      <div class="admit">Admit Two · Nº 030</div>
+      <p>Kein Fachwissen erforderlich – nur Neugier, Appetit und Lust auf unvergessliche Genussmomente zu zweit.</p>
+    </div>
+    <div class="stub">red pill</div>
+  </div>
+</main>
+
+<footer class="reveal">
+  <div class="big">prost auf<br>dein neues<br><span class="b">jahrzehnt!</span></div>
+  <div class="wish">Alles Gute zum 30. Geburtstag! ❤️</div>
+  <div class="row"><span>Kapitel 30</span><a class="back" href="blue-pill-30.html">← zur Pillen-Wahl</a></div>
+</footer>
+
+<!-- Auswahl-Popup -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-labelledby="modalTitle">
+    <div class="grab"></div>
+    <h2 id="modalTitle">womit stoßen<br>wir an?</h2>
+    <p>Du entscheidest – ich reserviere den Rest. ♥</p>
+    <div class="choices">
+      <button class="choice" data-choice="Weinbegleitung" data-note="Feine Tropfen aus dem Pachmayr Laden">
+        <div><strong>Weinbegleitung</strong><span>vom Pachmayr Laden</span></div><span class="go">🍷</span>
+      </button>
+      <button class="choice b" data-choice="alkoholfreie Begleitung" data-note="Hochwertige alkoholfreie Alternativen">
+        <div><strong>Alkoholfrei</strong><span>Hochwertige Alternativen</span></div><span class="go">🥂</span>
+      </button>
+    </div>
+    <button class="later" id="closeBtn">ich überleg noch kurz …</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  /* ---------- Konfetti in Blau, Blush & Creme ---------- */
+  const cc = $('confetti'), cx = cc.getContext('2d');
+  let bits = [], running = false;
+  const size = () => { cc.width = innerWidth * dpr; cc.height = innerHeight * dpr; };
+  size(); addEventListener('resize', size);
+  const cols = ['#8EB9FF','#C2858C','#F6EEE3','#8EB9FF','#902124'];
+  function burst(count = 120){
+    if (reduce) return;
+    for (let i = 0; i < count; i++){
+      bits.push({
+        x: cc.width / 2, y: cc.height * .55,
+        vx: (Math.random() - .5) * 16 * dpr, vy: (Math.random() * -16 - 5) * dpr,
+        w: (Math.random() * 7 + 4) * dpr, h: (Math.random() * 4 + 2.5) * dpr,
+        rot: Math.random() * 6, vr: (Math.random() - .5) * .25,
+        round: Math.random() < .35, c: cols[Math.floor(Math.random() * cols.length)], life: 0
+      });
+    }
+    if (!running){ running = true; requestAnimationFrame(draw); }
+  }
+  function draw(){
+    cx.clearRect(0,0,cc.width,cc.height);
+    bits.forEach(b => {
+      b.vy += .4 * dpr; b.vx *= .985; b.x += b.vx; b.y += b.vy; b.rot += b.vr; b.life++;
+      cx.save(); cx.translate(b.x, b.y); cx.rotate(b.rot); cx.fillStyle = b.c;
+      if (b.round){ cx.beginPath(); cx.arc(0,0,b.h,0,Math.PI*2); cx.fill(); }
+      else cx.fillRect(-b.w/2, -b.h/2, b.w, b.h * Math.abs(Math.cos(b.life * .1)));
+      cx.restore();
+    });
+    bits = bits.filter(b => b.y < cc.height + 40);
+    if (bits.length) requestAnimationFrame(draw);
+    else { running = false; cx.clearRect(0,0,cc.width,cc.height); }
+  }
+
+  /* ---------- Musik (YouTube) ---------- */
+  const YT_ID = 'Vi0a2oRZi-g';
+  const player = $('player'), label = $('playerLabel');
+  const ui = on => { player.classList.toggle('playing', on); label.textContent = on ? 'Jazz' : 'Pause'; };
+  let yt, ytReady = false, wantPlay = false;
+
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  window.onYouTubeIframeAPIReady = () => {
+    yt = new YT.Player('yt', {
+      videoId: YT_ID, width: 1, height: 1,
+      playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: YT_ID, playsinline: 1 },
+      events: {
+        onReady: () => { ytReady = true; yt.setVolume(60); if (wantPlay) yt.playVideo(); },
+        onStateChange: e => ui(e.data === YT.PlayerState.PLAYING)
+      }
+    });
+  };
+  function play(){ wantPlay = true; if (ytReady) yt.playVideo(); }
+  function pause(){ wantPlay = false; if (ytReady) yt.pauseVideo(); }
+  player.addEventListener('click', () =>
+    ytReady && yt.getPlayerState() === YT.PlayerState.PLAYING ? pause() : play());
+
+  /* ---------- Intro ---------- */
+  const reveals = document.querySelectorAll('.reveal');
+  function enter(withMusic){
+    if (withMusic) play();
+    $('intro').classList.add('hide');
+    document.body.classList.remove('locked');
+    burst(90);
+    if ('IntersectionObserver' in window){
+      let i = 0;
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting){
+          const el = e.target; setTimeout(() => el.classList.add('in'), 200 + (i++ < 4 ? i * 220 : 0));
+          io.unobserve(el);
+        }
+      }), { threshold: .1 });
+      reveals.forEach(el => io.observe(el));
+    } else reveals.forEach(el => el.classList.add('in'));
+  }
+  $('startBtn').addEventListener('click', () => enter(true));
+  $('silentBtn').addEventListener('click', () => enter(false));
+
+  /* ---------- Auswahl ---------- */
+  const modal = $('modal');
+  const openModal = () => { modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); };
+  const closeModal = () => { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); };
+  $('chooseBtn').addEventListener('click', openModal);
+  $('closeBtn').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  document.querySelectorAll('.choice').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeModal();
+      const r = $('result');
+      r.classList.remove('show'); void r.offsetWidth;
+      r.innerHTML = `Abgemacht: <strong>${btn.dataset.choice}</strong>.<br>${btn.dataset.note} – wir stoßen an! 🥂`;
+      r.classList.add('show');
+      $('chooseLabel').textContent = 'doch anders entscheiden?';
+      burst(160);
+      setTimeout(() => burst(100), 400);
+      if (navigator.vibrate) navigator.vibrate([50, 40, 50]);
+    });
+  });
+})();
+</script>
+</body>
+</html>
